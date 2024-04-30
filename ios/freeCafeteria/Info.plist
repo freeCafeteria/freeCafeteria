@@ -26,14 +26,13 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>{{usage description}}</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,5 +47,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NMFClientId</key>
+	<string>50q91p8kto</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>{{usage description}}</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>{{your purpose key}}</key>
+		<string>{{usage description}}</string>
+	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your explanation for using location always (for iOS 10 and earlier)</string>
+
 </dict>
 </plist>
