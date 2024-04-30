@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./pages/Home/Home";
 import community from "./pages/Community/Community";
+import Map from "./pages/Map/Map";
 
 import Splash from "./pages/Splash/Splash";
 import OnBoarding from "./pages/Splash/OnBoarding";
@@ -17,6 +18,7 @@ const MainTab = () => {
       screenOptions={{ headerShown: false, gestureEnabled: false }}
     >
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="community" component={community} />
     </Tab.Navigator>
   );
@@ -29,8 +31,8 @@ const Router = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="OnBoarding" component={OnBoarding} />
+      {/* <Stack.Screen name="Splash" component={Splash} /> */}
+      {/* <Stack.Screen name="OnBoarding" component={OnBoarding} /> */}
       <Stack.Screen name="MainTab" component={MainTab} />
     </Stack.Navigator>
   );

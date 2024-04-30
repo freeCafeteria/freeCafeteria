@@ -48,5 +48,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NMFClientId</key>
+    <string>50q91p8kto</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>{{usage description}}</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>{{your purpose key}}</key>
+		<string>{{usage description}}</string>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>{{usage description}}</string>
 </dict>
 </plist>

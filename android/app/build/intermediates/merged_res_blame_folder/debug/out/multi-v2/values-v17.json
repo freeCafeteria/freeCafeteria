@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.freecafeteria.app-mergeDebugResources-31:/values-v17/values-v17.xml",
+            "outputFile": "com.freecafeteria.app-mergeDebugResources-35:/values-v17/values-v17.xml",
             "map": [
                 {
                     "source": "/Users/sehunhwang/.gradle/caches/transforms-4/346f569ba9d365042b456e7e69a1a638/transformed/appcompat-1.6.1/res/values-v17/values-v17.xml",

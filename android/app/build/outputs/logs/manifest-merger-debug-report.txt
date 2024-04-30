@@ -1,20 +1,26 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:1:1-25:12
-MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:1:1-25:12
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:1:1-34:12
+MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:1:1-34:12
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:2:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/bcd1aaab3390fd5a0905d07d3a934f98/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:2:1-36:12
 MERGED from [com.google.android.material:material:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/452ffdcf9637ac22e3426671d55dd6fb/transformed/material-1.6.1/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/sehunhwang/.gradle/caches/transforms-4/ff18ce5ce91074d01800a4709d6a852e/transformed/constraintlayout-2.0.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/346f569ba9d365042b456e7e69a1a638/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/030557728acac83a974df967dd848472/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-location:21.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/4b8393201b80f3815f08a8f5f5eae606/transformed/jetified-play-services-location-21.2.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/79ead08b69ee8c9f1b9f28ffea0df53c/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.recyclerview:recyclerview:1.3.2] /Users/sehunhwang/.gradle/caches/transforms-4/74ac68ec479849899fd078934e4bf9d7/transformed/recyclerview-1.3.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /Users/sehunhwang/.gradle/caches/transforms-4/36821f6fff76304d4f59d1aeb6e6e133/transformed/jetified-viewpager2-1.1.0-beta02/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.3.6] /Users/sehunhwang/.gradle/caches/transforms-4/9fac0db26fd2a4e195d8649dff6e956e/transformed/fragment-1.3.6/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.6.0] /Users/sehunhwang/.gradle/caches/transforms-4/4e230aba5cf9e5aa7d2eec57c5e49643/transformed/jetified-activity-1.6.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/eae7d5d6d668e068f8d9079b125a5730/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -24,6 +30,7 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] /Users/seh
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] /Users/sehunhwang/.gradle/caches/transforms-4/cfd89dec3fe56ebab01682e81f0928e3/transformed/lifecycle-viewmodel-2.5.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.savedstate:savedstate:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/1edb212f8aaf7483cd1813eb804d6b0b/transformed/jetified-savedstate-1.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.facebook.fresco:fresco:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/84705d91e8c54aedd550e36b8411a0c5/transformed/jetified-fresco-3.1.3/AndroidManifest.xml:2:1-7:12
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.fresco:drawee:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/7471c07849b2dd8e9c82ad9a39477cc5/transformed/jetified-drawee-3.1.3/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.fresco:nativeimagefilters:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/5ce1048869e3ca6f6bd5f7d93f984d0e/transformed/jetified-nativeimagefilters-3.1.3/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.fresco:memory-type-native:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/a0eef212fd64514cd0c669f700b8cb04/transformed/jetified-memory-type-native-3.1.3/AndroidManifest.xml:2:1-7:12
@@ -51,13 +58,14 @@ MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/sehunhwang/.gr
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/af676a339047eebb1ea03fc498fa7d96/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/sehunhwang/.gradle/caches/transforms-4/09eef55eb93c11472d5adfec8ef9ce20/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.transition:transition:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/a7068546c7394058146a73bf2d4c0afe/transformed/transition-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/1cf8fe965e5a31a736344fee56534d7a/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.core:core-ktx:1.9.0] /Users/sehunhwang/.gradle/caches/transforms-4/791608cc0d77656bfc32621bd4b161ed/transformed/jetified-core-ktx-1.9.0/AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/aab0fcb358f603f19699ac0e8dc15f21/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/d1017669b922ea11f1615c2e301f90d9/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.9.0] /Users/sehunhwang/.gradle/caches/transforms-4/6621c239d1e00abea0752787fff99403/transformed/core-1.9.0/AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/f0eefe29ba2bd8f2b63e2d2a27468119/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /Users/sehunhwang/.gradle/caches/transforms-4/e4ad027880f75464e106461c0bda9074/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/2d73db32a8de7ed3ac65950e78ca1eb6/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.naver.maps:geometry:1.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/3cc1fb17fe9e8a6d1498393d2bbe44b4/transformed/jetified-geometry-1.3.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/sehunhwang/.gradle/caches/transforms-4/b32fa2a0961b239751fb58134f8e560c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/c7f02110e9970d489937636b78068a94/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/04a30ef692f40abee3c8e84b59d24906/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
@@ -69,6 +77,7 @@ MERGED from [androidx.print:print:1.0.0] /Users/sehunhwang/.gradle/caches/transf
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/8a298d92308daeb410228b87e46e26b0/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/sehunhwang/.gradle/caches/transforms-4/c7e26f7d3c2fc1a6636ff1467fc77795/transformed/jetified-fbjni-0.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.soloader:soloader:0.10.5] /Users/sehunhwang/.gradle/caches/transforms-4/c5277b14eec9cc4a12d0fb10c9f8e27e/transformed/jetified-soloader-0.10.5/AndroidManifest.xml:2:1-17:12
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.4] /Users/sehunhwang/.gradle/caches/transforms-4/16c82dc34116f436747eadbbd888957a/transformed/jetified-relinker-1.4.4/AndroidManifest.xml:2:1-7:12
 	package
 		INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml
 	android:versionName
@@ -81,19 +90,31 @@ MERGED from [com.facebook.soloader:soloader:0.10.5] /Users/sehunhwang/.gradle/ca
 		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
 ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:3:5-67
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:14:5-67
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:14:5-67
 	android:name
 		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:3:22-64
 application
-ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-24:19
-MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-24:19
-MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-24:19
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-28:19
+MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-28:19
+MERGED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:5:5-28:19
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:5:5-8:50
 MERGED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:18:5-22:19
 MERGED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:18:5-22:19
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:18:5-34:19
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:18:5-34:19
 MERGED from [com.google.android.material:material:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/452ffdcf9637ac22e3426671d55dd6fb/transformed/material-1.6.1/AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/452ffdcf9637ac22e3426671d55dd6fb/transformed/material-1.6.1/AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/sehunhwang/.gradle/caches/transforms-4/ff18ce5ce91074d01800a4709d6a852e/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/sehunhwang/.gradle/caches/transforms-4/ff18ce5ce91074d01800a4709d6a852e/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-location:21.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/4b8393201b80f3815f08a8f5f5eae606/transformed/jetified-play-services-location-21.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:21.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/4b8393201b80f3815f08a8f5f5eae606/transformed/jetified-play-services-location-21.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/79ead08b69ee8c9f1b9f28ffea0df53c/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/79ead08b69ee8c9f1b9f28ffea0df53c/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/1f0c06f94521237f79abc32a5f8de33d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/1f0c06f94521237f79abc32a5f8de33d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] /Users/sehunhwang/.gradle/caches/transforms-4/de53634973e45ba7b62012cb8e869aee/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:25:5-35:19
@@ -158,10 +179,30 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:21:13-73
 	android:name
 		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:21:23-70
+meta-data#com.naver.maps.map.CLIENT_ID
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:24:7-26:42
+	android:value
+		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:26:13-39
+	android:name
+		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:25:13-56
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:30:7-81
+	android:name
+		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:30:24-78
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:31:7-83
+	android:name
+		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:31:24-80
+uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
+ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:33:7-87
+	android:name
+		ADDED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/main/AndroidManifest.xml:33:24-84
 uses-sdk
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml
+MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
@@ -172,16 +213,26 @@ MERGED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/
 MERGED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:10:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/bcd1aaab3390fd5a0905d07d3a934f98/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/bcd1aaab3390fd5a0905d07d3a934f98/transformed/jetified-appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:5:5-44
+MERGED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.material:material:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/452ffdcf9637ac22e3426671d55dd6fb/transformed/material-1.6.1/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.material:material:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/452ffdcf9637ac22e3426671d55dd6fb/transformed/material-1.6.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/sehunhwang/.gradle/caches/transforms-4/ff18ce5ce91074d01800a4709d6a852e/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/sehunhwang/.gradle/caches/transforms-4/ff18ce5ce91074d01800a4709d6a852e/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/346f569ba9d365042b456e7e69a1a638/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/sehunhwang/.gradle/caches/transforms-4/346f569ba9d365042b456e7e69a1a638/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:5:5-44
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:5:5-44
-MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/030557728acac83a974df967dd848472/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/030557728acac83a974df967dd848472/transformed/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-location:21.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/4b8393201b80f3815f08a8f5f5eae606/transformed/jetified-play-services-location-21.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:21.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/4b8393201b80f3815f08a8f5f5eae606/transformed/jetified-play-services-location-21.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/79ead08b69ee8c9f1b9f28ffea0df53c/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/79ead08b69ee8c9f1b9f28ffea0df53c/transformed/jetified-play-services-tasks-18.1.0/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.recyclerview:recyclerview:1.3.2] /Users/sehunhwang/.gradle/caches/transforms-4/74ac68ec479849899fd078934e4bf9d7/transformed/recyclerview-1.3.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.3.2] /Users/sehunhwang/.gradle/caches/transforms-4/74ac68ec479849899fd078934e4bf9d7/transformed/recyclerview-1.3.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /Users/sehunhwang/.gradle/caches/transforms-4/36821f6fff76304d4f59d1aeb6e6e133/transformed/jetified-viewpager2-1.1.0-beta02/AndroidManifest.xml:5:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.1.0-beta02] /Users/sehunhwang/.gradle/caches/transforms-4/36821f6fff76304d4f59d1aeb6e6e133/transformed/jetified-viewpager2-1.1.0-beta02/AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.3.6] /Users/sehunhwang/.gradle/caches/transforms-4/9fac0db26fd2a4e195d8649dff6e956e/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.3.6] /Users/sehunhwang/.gradle/caches/transforms-4/9fac0db26fd2a4e195d8649dff6e956e/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.6.0] /Users/sehunhwang/.gradle/caches/transforms-4/4e230aba5cf9e5aa7d2eec57c5e49643/transformed/jetified-activity-1.6.0/AndroidManifest.xml:20:5-44
@@ -200,6 +251,8 @@ MERGED from [androidx.savedstate:savedstate:1.2.0] /Users/sehunhwang/.gradle/cac
 MERGED from [androidx.savedstate:savedstate:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/1edb212f8aaf7483cd1813eb804d6b0b/transformed/jetified-savedstate-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [com.facebook.fresco:fresco:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/84705d91e8c54aedd550e36b8411a0c5/transformed/jetified-fresco-3.1.3/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:fresco:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/84705d91e8c54aedd550e36b8411a0c5/transformed/jetified-fresco-3.1.3/AndroidManifest.xml:5:5-44
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:5:5-44
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/73eb3150efd94aec69dd54cf7b8be347/transformed/jetified-imagepipeline-okhttp3-3.1.3/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:drawee:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/7471c07849b2dd8e9c82ad9a39477cc5/transformed/jetified-drawee-3.1.3/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:drawee:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/7471c07849b2dd8e9c82ad9a39477cc5/transformed/jetified-drawee-3.1.3/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.fresco:nativeimagefilters:3.1.3] /Users/sehunhwang/.gradle/caches/transforms-4/5ce1048869e3ca6f6bd5f7d93f984d0e/transformed/jetified-nativeimagefilters-3.1.3/AndroidManifest.xml:5:5-44
@@ -254,10 +307,10 @@ MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/sehunhwang/.gradle
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/sehunhwang/.gradle/caches/transforms-4/09eef55eb93c11472d5adfec8ef9ce20/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/a7068546c7394058146a73bf2d4c0afe/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/a7068546c7394058146a73bf2d4c0afe/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/1cf8fe965e5a31a736344fee56534d7a/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/1cf8fe965e5a31a736344fee56534d7a/transformed/jetified-customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
 MERGED from [androidx.core:core-ktx:1.9.0] /Users/sehunhwang/.gradle/caches/transforms-4/791608cc0d77656bfc32621bd4b161ed/transformed/jetified-core-ktx-1.9.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.9.0] /Users/sehunhwang/.gradle/caches/transforms-4/791608cc0d77656bfc32621bd4b161ed/transformed/jetified-core-ktx-1.9.0/AndroidManifest.xml:5:5-44
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/aab0fcb358f603f19699ac0e8dc15f21/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/aab0fcb358f603f19699ac0e8dc15f21/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/d1017669b922ea11f1615c2e301f90d9/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.1.0] /Users/sehunhwang/.gradle/caches/transforms-4/d1017669b922ea11f1615c2e301f90d9/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.9.0] /Users/sehunhwang/.gradle/caches/transforms-4/6621c239d1e00abea0752787fff99403/transformed/core-1.9.0/AndroidManifest.xml:20:5-44
@@ -268,6 +321,8 @@ MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /Users/sehunhwang/.grad
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /Users/sehunhwang/.gradle/caches/transforms-4/e4ad027880f75464e106461c0bda9074/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/2d73db32a8de7ed3ac65950e78ca1eb6/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/2d73db32a8de7ed3ac65950e78ca1eb6/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.naver.maps:geometry:1.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/3cc1fb17fe9e8a6d1498393d2bbe44b4/transformed/jetified-geometry-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [com.naver.maps:geometry:1.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/3cc1fb17fe9e8a6d1498393d2bbe44b4/transformed/jetified-geometry-1.3.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/sehunhwang/.gradle/caches/transforms-4/b32fa2a0961b239751fb58134f8e560c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/sehunhwang/.gradle/caches/transforms-4/b32fa2a0961b239751fb58134f8e560c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/sehunhwang/.gradle/caches/transforms-4/c7f02110e9970d489937636b78068a94/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
@@ -290,6 +345,8 @@ MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/sehunhwang/.gradle/caches/tr
 MERGED from [com.facebook.fbjni:fbjni:0.6.0] /Users/sehunhwang/.gradle/caches/transforms-4/c7e26f7d3c2fc1a6636ff1467fc77795/transformed/jetified-fbjni-0.6.0/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.soloader:soloader:0.10.5] /Users/sehunhwang/.gradle/caches/transforms-4/c5277b14eec9cc4a12d0fb10c9f8e27e/transformed/jetified-soloader-0.10.5/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.soloader:soloader:0.10.5] /Users/sehunhwang/.gradle/caches/transforms-4/c5277b14eec9cc4a12d0fb10c9f8e27e/transformed/jetified-soloader-0.10.5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.4] /Users/sehunhwang/.gradle/caches/transforms-4/16c82dc34116f436747eadbbd888957a/transformed/jetified-relinker-1.4.4/AndroidManifest.xml:5:5-43
+MERGED from [com.getkeepsafe.relinker:relinker:1.4.4] /Users/sehunhwang/.gradle/caches/transforms-4/16c82dc34116f436747eadbbd888957a/transformed/jetified-relinker-1.4.4/AndroidManifest.xml:5:5-43
 	android:targetSdkVersion
 		INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml
 	android:minSdkVersion
@@ -304,6 +361,70 @@ ADDED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/c
 		ADDED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:21:13-37
 	android:name
 		ADDED from [com.facebook.react:react-android:0.74.0] /Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/AndroidManifest.xml:20:13-77
+uses-feature#0x00020000
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:7:5-9:35
+	android:glEsVersion
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:8:9-41
+	android:required
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:9:9-32
+uses-feature#android.hardware.wifi
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:10:5-12:36
+	android:required
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:12:9-33
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:11:9-45
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:15:5-79
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:15:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:16:5-76
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:16:22-73
+activity#com.naver.maps.map.app.LegendActivity
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:19:9-23:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:22:13-52
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:21:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:23:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:20:13-65
+activity#com.naver.maps.map.app.LegalNoticeActivity
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:24:9-28:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:27:13-58
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:26:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:28:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:25:13-70
+activity#com.naver.maps.map.app.OpenSourceLicenseActivity
+ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:29:9-33:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:32:13-65
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:31:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:33:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.18.0] /Users/sehunhwang/.gradle/caches/transforms-4/93228d2c69ce05c1ef82500499719747/transformed/jetified-map-sdk-3.18.0/AndroidManifest.xml:30:13-76
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/316b47ba97064b8996d617330ed91d18/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.3.0] /Users/sehunhwang/.gradle/caches/transforms-4/06afc51d4c732095d1f7af57feb29a81/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:22:13-58
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/sehunhwang/.gradle/caches/transforms-4/1f0c06f94521237f79abc32a5f8de33d/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] /Users/sehunhwang/.gradle/caches/transforms-4/de53634973e45ba7b62012cb8e869aee/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:26:9-34:20

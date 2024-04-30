@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.freecafeteria.app-mergeDebugResources-31:/values-es-rES/values-es-rES.xml",
+            "outputFile": "com.freecafeteria.app-mergeDebugResources-35:/values-es-rES/values-es-rES.xml",
             "map": [
                 {
                     "source": "/Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/res/values-es-rES/values-es-rES.xml",
