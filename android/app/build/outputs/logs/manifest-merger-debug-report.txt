@@ -6,6 +6,7 @@ INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/Andr
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:react-native-community_geolocation] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@react-native-community/geolocation/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-safe-area-context] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-screens] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-7:12
@@ -203,6 +204,8 @@ INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/Andr
 INJECTED from /Users/sehunhwang/Desktop/freeCafeteria/android/app/src/debug/AndroidManifest.xml
 MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:mj-studio_react-native-naver-map] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@mj-studio/react-native-naver-map/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_geolocation] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@react-native-community/geolocation/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_geolocation] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/@react-native-community/geolocation/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-gesture-handler] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:react-native-safe-area-context] /Users/sehunhwang/Desktop/freeCafeteria/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-44
