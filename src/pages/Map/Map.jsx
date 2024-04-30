@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  TextInput,
 } from "react-native";
 import {
   NaverMapView,
@@ -57,11 +58,15 @@ const Cafeterias = [
 
 const Map = () => {
   const ref = useRef(null);
+  const inputRef = useRef();
   const map = () => ref.current;
+  //현재 위치 좌표
   Geolocation.getCurrentPosition((info) =>
     console.log("currentPosition: ", info)
   );
   const [myPosition, setMyPosition] = useState({});
+
+  //카메라  -> 초깃값은 유저의 현재 위치로
   const [camera, setCamera] = useState({
     latitude: 37.240765,
     longitude: 127.07975296858098,
@@ -78,9 +83,12 @@ const Map = () => {
     });
   };
 
+  //search
+  const [keyword, setKeyword] = useState("");
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <NaverMapView style={{ flex: 1 }} ref={ref} camera={camera}>
+    <SafeAreaView style={styles.container}>
+      <NaverMapView style={styles.mapContainer} ref={ref} camera={camera}>
         <NaverMapMarkerOverlay
           latitude={Number(Cafeterias[0].위도)}
           longitude={Number(Cafeterias[0].경도)}
@@ -98,10 +106,18 @@ const Map = () => {
           height={50}
         />
       </NaverMapView>
+      <View style={styles.inputContainer}></View>
     </SafeAreaView>
   );
 };
 
 export default Map;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  mapContainer: {
+    flex: 1,
+  },
+});
