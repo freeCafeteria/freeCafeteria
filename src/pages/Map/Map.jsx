@@ -13,8 +13,10 @@ import {
   NaverMapPathOverlay,
   map,
 } from "@mj-studio/react-native-naver-map";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Geolocation from "@react-native-community/geolocation";
+import { SingleLineInput } from "../../components/SingleLineInput";
+
 
 const Cafeterias = [
   {
@@ -56,11 +58,13 @@ const Cafeterias = [
 ];
 
 const Map = () => {
+
   const ref = useRef(null);
   const map = () => ref.current;
   Geolocation.getCurrentPosition((info) =>
     console.log("currentPosition: ", info)
   );
+  const [query, setQuery] = useState('');
   const [myPosition, setMyPosition] = useState({});
   const [camera, setCamera] = useState({
     latitude: 37.240765,
@@ -78,9 +82,47 @@ const Map = () => {
     });
   };
 
+
+  // 주소를 검색창에 주소, 키워드 입력시 해당 위치로 마커 이동
+  const onFindAddress = useCallback(async () => {
+    // const keywordResult = await getCoordsFromKeyword(query);
+
+    // if (keywordResult !== null) {
+    //   setCurrentAddress(keywordResult.address);
+    //   setCurrentRegion({
+    //     latitude: parseFloat(keywordResult.latitude.toString()),
+    //     longitude: parseFloat(keywordResult.longitude.toString()),
+    //   });
+    //   return;
+    // }
+
+    // const addressResult = await getCoordsFromAddress(query);
+
+    // if (addressResult === null) {
+    //   console.log('주소값을 찾지 못했습니다');
+    //   return;
+    // }
+
+    // setCurrentAddress(addressResult.address);
+    // setCurrentRegion({
+    //   latitude: parseFloat(addressResult.latitude.toString()),
+    //   longitude: parseFloat(addressResult.longitude.toString()),
+    // });
+  }, [query]);
+
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NaverMapView style={{ flex: 1 }} ref={ref} camera={camera}>
+      <View style={{backgroundColor: 'white'}}>
+          <SingleLineInput
+            value={query}
+            placeholder="주소를 입력해 주세요"
+            onChangeText={setQuery}
+            // onSubmitEditing={onFindAddress}
+          />
+            </View>
+      
         <NaverMapMarkerOverlay
           latitude={Number(Cafeterias[0].위도)}
           longitude={Number(Cafeterias[0].경도)}
