@@ -10,6 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.7.5",
+    "react-native-modal": "^13.0.1",
+    "react-native-picker-select": "^9.1.3",
     "@mj-studio/react-native-naver-map": "^1.3.0",
     "@react-native-community/geolocation": "^3.2.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
