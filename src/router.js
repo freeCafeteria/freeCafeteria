@@ -31,8 +31,8 @@ const Router = () => {
         headerShown: false,
       }}
     >
-      {/* <Stack.Screen name="Splash" component={Splash} /> */}
-      {/* <Stack.Screen name="OnBoarding" component={OnBoarding} /> */}
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="OnBoarding" component={OnBoarding} />
       <Stack.Screen name="MainTab" component={MainTab} />
     </Stack.Navigator>
   );
