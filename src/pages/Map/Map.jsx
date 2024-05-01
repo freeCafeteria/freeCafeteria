@@ -16,6 +16,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Geolocation from "@react-native-community/geolocation";
 import { SingleLineInput } from "../../components/SingleLineInput";
+import { getCoordsFromAddress, getCoordsFromKeyword } from "../../utils/GeoUtils";
 
 const Cafeterias = [
   {
@@ -64,82 +65,94 @@ const Map = () => {
   );
   const [query, setQuery] = useState("");
   const [myPosition, setMyPosition] = useState({});
-  const [camera, setCamera] = useState({
-    latitude: 37.240765,
-    longitude: 127.07975296858098,
-    zoom: 15,
+  const [currentPosition, setCurrentPosition] = useState({
+    latitude: 35.9665,
+    longitude: 128.2780,
+    zoom: 10,
   });
 
-  const markerHandler = (lat, lon) => {
-    map()?.animateCameraTo({
-      latitude: Number(lat),
-      longitude: Number(lon),
+  const updateMapPosition = useCallback((latitude, longitude) => {
+    ref.current?.animateCameraTo({
+      latitude: Number(latitude),
+      longitude: Number(longitude),
       zoom: 15,
-      duration: 3000,
+      duration: 2000,
       easing: "Fly",
     });
-  };
+  }, []);
 
   // 주소를 검색창에 주소, 키워드 입력시 해당 위치로 마커 이동
   const onFindAddress = useCallback(async () => {
-    // const keywordResult = await getCoordsFromKeyword(query);
-    // if (keywordResult !== null) {
-    //   setCurrentAddress(keywordResult.address);
-    //   setCurrentRegion({
-    //     latitude: parseFloat(keywordResult.latitude.toString()),
-    //     longitude: parseFloat(keywordResult.longitude.toString()),
-    //   });
-    //   return;
-    // }
-    // const addressResult = await getCoordsFromAddress(query);
-    // if (addressResult === null) {
-    //   console.log('주소값을 찾지 못했습니다');
-    //   return;
-    // }
-    // setCurrentAddress(addressResult.address);
-    // setCurrentRegion({
-    //   latitude: parseFloat(addressResult.latitude.toString()),
-    //   longitude: parseFloat(addressResult.longitude.toString()),
-    // });
-  }, [query]);
+    // 주소나 키워드에 따라 위치 검색
+    let result = await getCoordsFromKeyword(query);
+    if (!result) {
+      result = await getCoordsFromAddress(query);
+    }
+    
+
+    if (result) {
+      updateMapPosition(result.latitude, result.longitude);
+      setQuery(''); // 검색 후 입력 필드 초기화
+    } else {
+      console.log('검색 결과가 없습니다.');
+    }
+  }, [query, updateMapPosition]);
+
+  
+  // 사용자의 현재 위치를 가져오기
+  useEffect(() => {
+    Geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      updateMapPosition(latitude, longitude);
+    }, (error) => console.error(error), {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 1000
+    });
+  }, [updateMapPosition]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ flex: 1 }}>
-      <View style={styles.searchBar}>
-        <SingleLineInput
-          value={query}
-          placeholder="주소를 입력해 주세요"
-          onChangeText={setQuery}
-        />
-      </View>
-      <NaverMapView
-        style={{ flex: 1 }}
-        ref={ref}
-        camera={camera}
-      >
-        {Cafeterias.map((cafeteria, index) => (
-          <NaverMapMarkerOverlay
-            key={index}
-            latitude={Number(cafeteria.위도)}
-            longitude={Number(cafeteria.경도)}
-            onTap={() => markerHandler(cafeteria.위도, cafeteria.경도)}
-            anchor={{ x: 0.5, y: 1 }}
-            caption={{
-              key: "1",
-              text: `${cafeteria.시설명}`,
-            }}
-            subCaption={{
-              key: "1234",
-              text: `${cafeteria.전화번호}`,
-            }}
-            width={50}
-            height={50}
+      <View style={{ flex: 1 }}>
+        <NaverMapView
+          style={{ flex: 1 }}
+          ref={ref}
+          camera={currentPosition}
+          onMapClick={(e) => {
+            const { latitude, longitude } = e;
+            updateMapPosition(latitude, longitude);
+          }}
+        >
+      {Cafeterias.map((cafeteria, index) => (
+        <NaverMapMarkerOverlay
+        key={index}
+        latitude={Number(cafeteria.위도)}
+        longitude={Number(cafeteria.경도)}
+        onTap={() => updateMapPosition(cafeteria.위도, cafeteria.경도)}
+        anchor={{ x: 0.5, y: 1 }}
+        caption={{
+            key: "1",
+            text: `${cafeteria.시설명}`,
+        }}
+        subCaption={{
+            key: "1234",
+            text: `${cafeteria.전화번호}`,
+        }}
+        width={50}
+        height={50}
+    />
+))}
+        </NaverMapView>
+        <View style={styles.searchBar}>
+          <SingleLineInput
+            value={query}
+            placeholder="주소를 입력해주세요"
+            onChangeText={setQuery}
+            onSubmitEditing={onFindAddress}
           />
-        ))}
-      </NaverMapView>
-    </View>
-  </SafeAreaView>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -147,9 +160,11 @@ export default Map;
 
 const styles = StyleSheet.create({
   searchBar: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    right: 20,
     backgroundColor: "white",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
+    padding: 10,
   },
 });
