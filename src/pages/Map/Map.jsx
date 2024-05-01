@@ -105,46 +105,51 @@ const Map = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NaverMapView style={{ flex: 1 }} ref={ref} camera={camera}>
-        <View
-          style={{
-            backgroundColor: "white",
-            position: "absolute",
-            top: 0,
-            left: 20,
-            right: 20,
-            zIndex: 2,
-          }}
-        >
-          <SingleLineInput
-            value={query}
-            placeholder="주소를 입력해 주세요"
-            onChangeText={setQuery}
-            // onSubmitEditing={onFindAddress}
-          />
-        </View>
-
-        <NaverMapMarkerOverlay
-          latitude={Number(Cafeterias[0].위도)}
-          longitude={Number(Cafeterias[0].경도)}
-          onTap={() => markerHandler(Cafeterias[0].위도, Cafeterias[0].경도)}
-          anchor={{ x: 0.5, y: 1 }}
-          caption={{
-            key: "1",
-            text: `${Cafeterias[0].시설명}`,
-          }}
-          subCaption={{
-            key: "1234",
-            text: `${Cafeterias[0].전화번호}`,
-          }}
-          width={50}
-          height={50}
+    <View style={{ flex: 1 }}>
+      <View style={styles.searchBar}>
+        <SingleLineInput
+          value={query}
+          placeholder="주소를 입력해 주세요"
+          onChangeText={setQuery}
         />
+      </View>
+      <NaverMapView
+        style={{ flex: 1 }}
+        ref={ref}
+        camera={camera}
+      >
+        {Cafeterias.map((cafeteria, index) => (
+          <NaverMapMarkerOverlay
+            key={index}
+            latitude={Number(cafeteria.위도)}
+            longitude={Number(cafeteria.경도)}
+            onTap={() => markerHandler(cafeteria.위도, cafeteria.경도)}
+            anchor={{ x: 0.5, y: 1 }}
+            caption={{
+              key: "1",
+              text: `${cafeteria.시설명}`,
+            }}
+            subCaption={{
+              key: "1234",
+              text: `${cafeteria.전화번호}`,
+            }}
+            width={50}
+            height={50}
+          />
+        ))}
       </NaverMapView>
-    </SafeAreaView>
+    </View>
+  </SafeAreaView>
   );
 };
 
 export default Map;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  searchBar: {
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+});
