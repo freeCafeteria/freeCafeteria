@@ -4,13 +4,27 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./pages/Home/Home";
 import community from "./pages/Community/Community";
-import Map from "./pages/Map/Map";
+
 
 import Splash from "./pages/Splash/Splash";
 import OnBoarding from "./pages/Splash/OnBoarding";
+import MapScreen from "./pages/Map/MapScreen";
+import MapDetail from "./pages/Map/Mapdetail";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+const Map = () => {
+  return (
+    <Stack.Navigator initialRouteName="MapScreen">
+      <Stack.Screen name="MapScreen" component={MapScreen} />
+      <Stack.Screen name="MapDetail" component={MapDetail} />
+    </Stack.Navigator>
+  );
+};
+
+
 
 
 

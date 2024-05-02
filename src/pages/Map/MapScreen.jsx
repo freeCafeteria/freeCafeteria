@@ -59,7 +59,7 @@ const Cafeterias = [
   },
 ];
 
-const Map = () => {
+const MapScreen = ({navigation}) => {
   const ref = useRef(null);
   const map = () => ref.current;
   Geolocation.getCurrentPosition((info) =>
@@ -115,6 +115,14 @@ const closeModal = () => {
   setModalVisible(false);
 };
 
+const goToMapDetail = () => {
+  setModalVisible(false); // 모달 닫기
+  navigation.navigate('MapDetail', {
+    cafeteria: selectedCafeteria,
+    userLocation: currentPosition // 사용자의 현재 위치 전달
+  });
+};
+
 
   
   // 사용자의 현재 위치를 가져오기
@@ -155,12 +163,8 @@ const closeModal = () => {
               key: "1",
               text: `${cafeteria.시설명}`,
           }}
-          subCaption={{
-              key: "1234",
-              text: `${cafeteria.전화번호}`,
-          }}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
         />
       ))}
     </NaverMapView>
@@ -170,7 +174,6 @@ const closeModal = () => {
         placeholder="주소를 입력해주세요"
         onChangeText={setQuery}
         onSubmitEditing={onFindAddress}
-        style={{ backgroundColor: 'white', borderRadius: 25 }} // Apply rounded corners here if SingleLineInput accepts style prop
       />
     </View>
   </View>
@@ -185,6 +188,9 @@ const closeModal = () => {
       <Text style={styles.modalText}>전화번호: {selectedCafeteria?.전화번호}</Text>
       <Text style={styles.modalText}>운영시간: {selectedCafeteria?.급식시간}</Text>
       <Text style={styles.modalText}>운영요일: {selectedCafeteria?.급식요일}</Text>
+      <TouchableOpacity onPress={goToMapDetail} style={styles.routeButton}>
+          <Text style={styles.routeButtonText}>최단 경로</Text>
+        </TouchableOpacity>
       <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
         <Text style={styles.closeButtonText}>닫기</Text>
       </TouchableOpacity>
@@ -194,7 +200,7 @@ const closeModal = () => {
   );
 };
 
-export default Map;
+export default MapScreen;
 
 const styles = StyleSheet.create({
   searchBar: {
@@ -238,5 +244,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 16,
-  }
+  },
+  routeButton: {
+    backgroundColor: '#64c2eb',
+    borderRadius: 20,
+    padding: 10,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  routeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
 });
