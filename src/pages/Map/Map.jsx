@@ -17,6 +17,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Geolocation from "@react-native-community/geolocation";
 import { SingleLineInput } from "../../components/SingleLineInput";
 import { getCoordsFromAddress, getCoordsFromKeyword } from "../../utils/GeoUtils";
+import Modal from 'react-native-modal';
+
 
 const Cafeterias = [
   {
@@ -70,6 +72,8 @@ const Map = () => {
     longitude: 128.2780,
     zoom: 10,
   });
+  const [modalVisible, setModalVisible] = useState(false);
+const [selectedCafeteria, setSelectedCafeteria] = useState(null);
 
   const updateMapPosition = useCallback((latitude, longitude) => {
     ref.current?.animateCameraTo({
@@ -98,6 +102,20 @@ const Map = () => {
     }
   }, [query, updateMapPosition]);
 
+
+
+  // 카페테리아 선택 함수
+const handleSelectCafeteria = cafeteria => {
+  setSelectedCafeteria(cafeteria);
+  setModalVisible(true);
+};
+
+// 모달을 닫는 함수
+const closeModal = () => {
+  setModalVisible(false);
+};
+
+
   
   // 사용자의 현재 위치를 가져오기
   useEffect(() => {
@@ -111,48 +129,68 @@ const Map = () => {
     });
   }, [updateMapPosition]);
 
+
+  
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <NaverMapView
-          style={{ flex: 1 }}
-          ref={ref}
-          camera={currentPosition}
-          onMapClick={(e) => {
-            const { latitude, longitude } = e;
-            updateMapPosition(latitude, longitude);
-          }}
-        >
+  <View style={{ flex: 1 }}>
+    <NaverMapView
+      style={{ flex: 1 }}
+      ref={ref}
+      camera={currentPosition}
+      onMapClick={(e) => {
+        const { latitude, longitude } = e;
+        updateMapPosition(latitude, longitude);
+      }}
+    >
       {Cafeterias.map((cafeteria, index) => (
         <NaverMapMarkerOverlay
-        key={index}
-        latitude={Number(cafeteria.위도)}
-        longitude={Number(cafeteria.경도)}
-        onTap={() => updateMapPosition(cafeteria.위도, cafeteria.경도)}
-        anchor={{ x: 0.5, y: 1 }}
-        caption={{
-            key: "1",
-            text: `${cafeteria.시설명}`,
-        }}
-        subCaption={{
-            key: "1234",
-            text: `${cafeteria.전화번호}`,
-        }}
-        width={50}
-        height={50}
-    />
-))}
-        </NaverMapView>
-        <View style={styles.searchBar}>
-          <SingleLineInput
-            value={query}
-            placeholder="주소를 입력해주세요"
-            onChangeText={setQuery}
-            onSubmitEditing={onFindAddress}
-          />
-        </View>
-      </View>
-    </SafeAreaView>
+          key={index}
+          latitude={Number(cafeteria.위도)}
+          longitude={Number(cafeteria.경도)}
+          onTap={() => handleSelectCafeteria(cafeteria)}
+          anchor={{ x: 0.5, y: 1 }}
+          caption={{
+              key: "1",
+              text: `${cafeteria.시설명}`,
+          }}
+          subCaption={{
+              key: "1234",
+              text: `${cafeteria.전화번호}`,
+          }}
+          width={50}
+          height={50}
+        />
+      ))}
+    </NaverMapView>
+    <View style={styles.searchBar}>
+      <SingleLineInput
+        value={query}
+        placeholder="주소를 입력해주세요"
+        onChangeText={setQuery}
+        onSubmitEditing={onFindAddress}
+        style={{ backgroundColor: 'white', borderRadius: 25 }} // Apply rounded corners here if SingleLineInput accepts style prop
+      />
+    </View>
+  </View>
+  <Modal
+    isVisible={modalVisible}
+    onBackdropPress={closeModal}
+    style={{ justifyContent: 'flex-end', margin: 0 }}
+  >
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>{selectedCafeteria?.시설명}</Text>
+      <Text style={styles.modalText}>주소: {selectedCafeteria?.소재지도로명주소}</Text>
+      <Text style={styles.modalText}>전화번호: {selectedCafeteria?.전화번호}</Text>
+      <Text style={styles.modalText}>운영시간: {selectedCafeteria?.급식시간}</Text>
+      <Text style={styles.modalText}>운영요일: {selectedCafeteria?.급식요일}</Text>
+      <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+        <Text style={styles.closeButtonText}>닫기</Text>
+      </TouchableOpacity>
+    </View>
+  </Modal>
+</SafeAreaView>
   );
 };
 
@@ -165,6 +203,40 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     backgroundColor: "white",
+    padding: 15,
+    borderRadius: 30,
+    elevation: 5, 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  modalContent: {
+    height: 250,
+    backgroundColor: 'white',
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalText: {
+    fontSize: 16,
+    color: '#333', 
+    marginBottom: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#64c2eb',
+  },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: '#64c2eb',
+    borderRadius: 20,
     padding: 10,
   },
+  closeButtonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 16,
+  }
 });

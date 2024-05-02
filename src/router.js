@@ -12,6 +12,9 @@ import OnBoarding from "./pages/Splash/OnBoarding";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+
+
 const MainTab = () => {
   return (
     <Tab.Navigator
