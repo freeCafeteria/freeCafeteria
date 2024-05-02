@@ -5,7 +5,7 @@ const Splash = ({ navigation }) => {
   React.useEffect(() => {
     setTimeout(() => {
       navigation.replace("OnBoarding");
-    }, 3000);
+    }, 1000);
   }, [navigation]);
 
   return (

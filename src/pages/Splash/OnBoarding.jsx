@@ -61,8 +61,11 @@ const Onboarding = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    if (step === 1 && !age) {
-      Alert.alert("입력 오류", "나이를 입력해 주세요.");
+    if (step === 1 && !isValidAge()) {
+      Alert.alert(
+        "입력 오류",
+        "유효한 나이를 입력해 주세요. 나이는 0 이상의 숫자여야 합니다."
+      );
     } else if (step === 2 && !location) {
       Alert.alert("입력 오류", "거주지를 입력해 주세요.");
     } else if (step === 3 && Object.keys(selectedCategories).length === 0) {
@@ -72,6 +75,10 @@ const Onboarding = ({ navigation }) => {
     } else {
       toggleModal();
     }
+  };
+  const isValidAge = () => {
+    const ageNumber = parseInt(age, 10);
+    return ageNumber >= 0 && !isNaN(ageNumber);
   };
 
   const handleSubmit = () => {
@@ -92,23 +99,18 @@ const Onboarding = ({ navigation }) => {
     setSelectedDescription(null);
   };
 
-  const renderAgePicker = () => {
+  const renderAgeInput = () => {
     return (
-      <RNPickerSelect
-        onValueChange={(value) => setAge(value)}
-        items={[...Array(100).keys()].slice(1).map((value) => ({
-          label: `${value}세`,
-          value: `${value}`,
-        }))}
-        placeholder={{ label: "나이", value: null }}
-        style={{
-          inputIOS: styles.pickerInput,
-          inputAndroid: styles.pickerInput,
-          placeholder: { color: "#bbb" },
-        }}
+      <TextInput
+        style={styles.ageinput}
+        onChangeText={setAge}
+        value={age}
+        placeholder="나이를 입력하세요"
+        keyboardType="numeric"
       />
     );
   };
+
   const renderLocationPicker = () => {
     return (
       <RNPickerSelect
@@ -141,75 +143,78 @@ const Onboarding = ({ navigation }) => {
       />
     );
   };
-  return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={step === 2 ? styles.centeredContent : null}
-    >
-      {step === 1 && (
-        <>
-          <Text style={styles.titleText}>
-            무료급식소에 오신 것을 환영합니다!
-          </Text>
-          <Text style={styles.instructionText}>
-            사용자에게 적합한 무료 급식소를 찾을 수 있도록 몇가지 질문을
-            드릴게요
-          </Text>
-          <Text style={styles.label}>나이 (만 나이) 를 입력해주세요 </Text>
-          {renderAgePicker()}
-        </>
-      )}
-      {step === 2 && (
-        <View>
-          <Text style={styles.label}>거주지를 입력해주세요</Text>
-          {renderLocationPicker()}
-          {location && renderSubLocationPicker()}
-        </View>
-      )}
-      {step === 3 && (
-        <>
-          <Text style={styles.titleText}>해당되는 키워드를 선택하세요</Text>
-          <Text style={styles.instructionText}>
-            "? 버튼을 눌러 용어에 대한 상세 설명을 확인하세요."
-          </Text>
-          <View style={styles.buttonContainer}>
-            {categories.map((category, index) => (
-              <View key={index} style={styles.categoryRow}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCategories[category] ? styles.selected : null,
-                  ]}
-                  onPress={() =>
-                    setSelectedCategories((prev) => ({
-                      ...prev,
-                      [category]: !prev[category],
-                    }))
-                  }
-                >
-                  <Text style={styles.categoryText}>{category}</Text>
-                  <TouchableOpacity
-                    style={styles.infoButton}
-                    onPress={() => toggleDescription(category)}
-                  >
-                    <Image
-                      source={require("../../assets/question.png")}
-                      style={styles.infoButtonImage}
-                    />
-                  </TouchableOpacity>
-                </TouchableOpacity>
 
-                {selectedDescription === category && (
-                  <Text style={styles.descriptionText}>
-                    {categoryDescriptions[category]}
-                  </Text>
-                )}
-              </View>
-            ))}
+  return (
+    <>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={step === 2 ? styles.centeredContent : null}
+      >
+        {step === 1 && (
+          <>
+            <Text style={styles.titleText}>
+              무료급식소에 오신 것을 환영합니다!
+            </Text>
+            <Text style={styles.instructionText}>
+              사용자에게 적합한 무료 급식소를 찾을 수 있도록 몇가지 질문을
+              드릴게요
+            </Text>
+            <Text style={styles.label}>나이 (만 나이) 를 입력해주세요 </Text>
+            {renderAgeInput()}
+          </>
+        )}
+        {step === 2 && (
+          <View>
+            <Text style={styles.label}>거주지를 입력해주세요</Text>
+            {renderLocationPicker()}
+            {location && renderSubLocationPicker()}
           </View>
-        </>
-      )}
-      <StepIndicator currentStep={step} totalSteps={3} goToStep={goToStep} />
+        )}
+        {step === 3 && (
+          <>
+            <Text style={styles.titleText}>해당되는 키워드를 선택하세요</Text>
+            <Text style={styles.instructionText}>
+              "? 버튼을 눌러 용어에 대한 상세 설명을 확인하세요."
+            </Text>
+            <View style={styles.buttonContainer}>
+              {categories.map((category, index) => (
+                <View key={index} style={styles.categoryRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.button,
+                      selectedCategories[category] ? styles.selected : null,
+                    ]}
+                    onPress={() =>
+                      setSelectedCategories((prev) => ({
+                        ...prev,
+                        [category]: !prev[category],
+                      }))
+                    }
+                  >
+                    <Text style={styles.categoryText}>{category}</Text>
+                    <TouchableOpacity
+                      style={styles.infoButton}
+                      onPress={() => toggleDescription(category)}
+                    >
+                      <Image
+                        source={require("../../assets/question.png")}
+                        style={styles.infoButtonImage}
+                      />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+
+                  {selectedDescription === category && (
+                    <Text style={styles.descriptionText}>
+                      {categoryDescriptions[category]}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          </>
+        )}
+        <StepIndicator currentStep={step} totalSteps={3} goToStep={goToStep} />
+      </ScrollView>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.buttonText}>
           {step === 3 ? "시작하기" : "다음"}
@@ -257,7 +262,7 @@ const Onboarding = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </>
   );
 };
 
@@ -279,6 +284,16 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 0.1)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
+  },
+  ageinput: {
+    fontSize: 20,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    marginVertical: 10,
+    width: "100%",
+    backgroundColor: "#fff",
   },
   instructionText: {
     fontSize: 20,
@@ -333,6 +348,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 10,
     marginTop: 30,
+    position: "absolute",
+    bottom: 10,
+    alignSelf: "center",
+    width: "90%",
   },
 
   buttonContainer: {
