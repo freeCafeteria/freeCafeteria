@@ -13,6 +13,7 @@ import RNPickerSelect from "react-native-picker-select";
 import Modal from "react-native-modal";
 import { locations, subLocations } from "./data/locations";
 import { categories, categoryDescriptions } from "./data/categories";
+import useStore from "../../store";
 
 const StepIndicator = ({ currentStep, totalSteps, goToStep }) => {
   return (
@@ -38,27 +39,40 @@ const StepIndicator = ({ currentStep, totalSteps, goToStep }) => {
 };
 
 const Onboarding = ({ navigation }) => {
+  const {
+    age,
+    setAge,
+    location,
+    setLocation,
+    subLocation,
+    setSubLocation,
+    selectedCategories,
+    setSelectedCategories,
+    toggleCategory,
+  } = useStore((state) => ({
+    age: state.age,
+    location: state.location,
+    subLocation: state.subLocation,
+    selectedCategories: state.selectedCategories,
+    setAge: state.setAge,
+    setLocation: state.setLocation,
+    setSubLocation: state.setSubLocation,
+    setSelectedCategories: state.setSelectedCategories,
+    toggleCategory: state.toggleCategory,
+  }));
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [step, setStep] = useState(1);
-  const [age, setAge] = useState("");
-  const [location, setLocation] = useState("");
-
-  const [subLocation, setSubLocation] = useState("");
-  const [subLocationOptions, setSubLocationOptions] = useState([]);
-
-  const [selectedCategories, setSelectedCategories] = useState({});
   const [selectedDescription, setSelectedDescription] = useState(null);
+  const [subLocationOptions, setSubLocationOptions] = useState([]);
 
   useEffect(() => {
     if (location) {
       setSubLocationOptions(subLocations[location] || []);
-      setSubLocation("");
     }
   }, [location]);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
+  const toggleModal = () => setModalVisible(!isModalVisible);
 
   const handleNext = () => {
     if (step === 1 && !isValidAge()) {
@@ -76,13 +90,14 @@ const Onboarding = ({ navigation }) => {
       toggleModal();
     }
   };
+
   const isValidAge = () => {
     const ageNumber = parseInt(age, 10);
     return ageNumber >= 0 && !isNaN(ageNumber);
   };
 
   const handleSubmit = () => {
-    console.log({ age, location, selectedCategories });
+    console.log({ age, location, subLocation, selectedCategories });
     navigation.navigate("MainTab", { screen: "Home" });
     setModalVisible(false);
   };
@@ -114,7 +129,7 @@ const Onboarding = ({ navigation }) => {
   const renderLocationPicker = () => {
     return (
       <RNPickerSelect
-        onValueChange={(value) => setLocation(value)}
+        onValueChange={setLocation}
         items={locations.map((loc) => ({ label: loc.label, value: loc.value }))}
         placeholder={{ label: "거주지 선택", value: null }}
         style={{
@@ -129,7 +144,7 @@ const Onboarding = ({ navigation }) => {
   const renderSubLocationPicker = () => {
     return (
       <RNPickerSelect
-        onValueChange={(value) => setSubLocation(value)}
+        onValueChange={setSubLocation}
         items={subLocationOptions.map((subLoc) => ({
           label: subLoc,
           value: subLoc,
@@ -159,7 +174,7 @@ const Onboarding = ({ navigation }) => {
               사용자에게 적합한 무료 급식소를 찾을 수 있도록 몇가지 질문을
               드릴게요
             </Text>
-            <Text style={styles.label}>나이 (만 나이) 를 입력해주세요 </Text>
+            <Text style={styles.label}>나이 (만 나이) 를 입력해주세요</Text>
             {renderAgeInput()}
           </>
         )}
@@ -174,7 +189,7 @@ const Onboarding = ({ navigation }) => {
           <>
             <Text style={styles.titleText}>해당되는 키워드를 선택하세요</Text>
             <Text style={styles.instructionText}>
-              "? 버튼을 눌러 용어에 대한 상세 설명을 확인하세요."
+              ? 버튼을 눌러 용어에 대한 상세 설명을 확인하세요.
             </Text>
             <View style={styles.buttonContainer}>
               {categories.map((category, index) => (
@@ -184,12 +199,7 @@ const Onboarding = ({ navigation }) => {
                       styles.button,
                       selectedCategories[category] ? styles.selected : null,
                     ]}
-                    onPress={() =>
-                      setSelectedCategories((prev) => ({
-                        ...prev,
-                        [category]: !prev[category],
-                      }))
-                    }
+                    onPress={() => toggleCategory(category)}
                   >
                     <Text style={styles.categoryText}>{category}</Text>
                     <TouchableOpacity
