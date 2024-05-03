@@ -80,7 +80,7 @@ const Onboarding = ({ navigation }) => {
         "입력 오류",
         "유효한 나이를 입력해 주세요. 나이는 0 이상의 숫자여야 합니다."
       );
-    } else if (step === 2 && !location) {
+    } else if (step === 2 && (!location || !subLocation)) {
       Alert.alert("입력 오류", "거주지를 입력해 주세요.");
     } else if (step === 3 && Object.keys(selectedCategories).length === 0) {
       Alert.alert("선택 오류", "하나 이상의 카테고리를 선택해 주세요.");
@@ -98,6 +98,7 @@ const Onboarding = ({ navigation }) => {
 
   const handleSubmit = () => {
     console.log({ age, location, subLocation, selectedCategories });
+    useStore.getState().completeOnboarding();
     navigation.navigate("MainTab", { screen: "Home" });
     setModalVisible(false);
   };
