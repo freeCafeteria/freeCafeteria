@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Platform,
 } from "react-native";
 import {
   NaverMapView,
@@ -16,11 +17,14 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Geolocation from "@react-native-community/geolocation";
 import { SingleLineInput } from "../../components/SingleLineInput";
-import { getCoordsFromAddress, getCoordsFromKeyword } from "../../utils/GeoUtils";
-import Modal from 'react-native-modal';
+import {
+  getCoordsFromAddress,
+  getCoordsFromKeyword,
+} from "../../utils/GeoUtils";
+import Modal from "react-native-modal";
+import axios from "axios";
 
-
-const Cafeterias = [
+const dummyCafeterias = [
   {
     시설명: "관운사가야복지센터",
     소재지도로명주소: "경상북도 성주군 성주읍 경산길 33-1",
@@ -59,7 +63,7 @@ const Cafeterias = [
   },
 ];
 
-const MapScreen = ({navigation}) => {
+const MapScreen = ({ navigation }) => {
   const ref = useRef(null);
   const map = () => ref.current;
   Geolocation.getCurrentPosition((info) =>
@@ -69,11 +73,11 @@ const MapScreen = ({navigation}) => {
   const [myPosition, setMyPosition] = useState({});
   const [currentPosition, setCurrentPosition] = useState({
     latitude: 35.9665,
-    longitude: 128.2780,
+    longitude: 128.278,
     zoom: 10,
   });
   const [modalVisible, setModalVisible] = useState(false);
-const [selectedCafeteria, setSelectedCafeteria] = useState(null);
+  const [selectedCafeteria, setSelectedCafeteria] = useState(null);
 
   const updateMapPosition = useCallback((latitude, longitude) => {
     ref.current?.animateCameraTo({
@@ -92,111 +96,174 @@ const [selectedCafeteria, setSelectedCafeteria] = useState(null);
     if (!result) {
       result = await getCoordsFromAddress(query);
     }
-    
 
     if (result) {
       updateMapPosition(result.latitude, result.longitude);
-      setQuery(''); // 검색 후 입력 필드 초기화
+      setQuery(""); // 검색 후 입력 필드 초기화
     } else {
-      console.log('검색 결과가 없습니다.');
+      console.log("검색 결과가 없습니다.");
     }
   }, [query, updateMapPosition]);
 
-
-
   // 카페테리아 선택 함수
-const handleSelectCafeteria = cafeteria => {
-  setSelectedCafeteria(cafeteria);
-  setModalVisible(true);
-};
+  const handleSelectCafeteria = (cafeteria) => {
+    setSelectedCafeteria(cafeteria);
+    setModalVisible(true);
+  };
 
-// 모달을 닫는 함수
-const closeModal = () => {
-  setModalVisible(false);
-};
+  // 모달을 닫는 함수
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
-const goToMapDetail = () => {
-  setModalVisible(false); // 모달 닫기
-  navigation.navigate('MapDetail', {
-    cafeteria: selectedCafeteria,
-    userLocation: currentPosition // 사용자의 현재 위치 전달
-  });
-};
+  const goToMapDetail = () => {
+    setModalVisible(false); // 모달 닫기
+    navigation.navigate("MapDetail", {
+      cafeteria: selectedCafeteria,
+      userLocation: currentPosition, // 사용자의 현재 위치 전달
+    });
+  };
 
-
-  
   // 사용자의 현재 위치를 가져오기
   useEffect(() => {
-    Geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      updateMapPosition(latitude, longitude);
-    }, (error) => console.error(error), {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 1000
-    });
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        updateMapPosition(latitude, longitude);
+      },
+      (error) => console.error(error),
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+      }
+    );
   }, [updateMapPosition]);
 
+  //전체 급식소 들고오기
+  const [cafeterias, setCafeterias] = useState([]);
+  useEffect(() => {
+    const get_cafeteria_data = async () => {
+      const url =
+        Platform.OS === "android"
+          ? "http://10.0.2.2:3000"
+          : "http://localhost:3000";
+      const res = await axios.get(`${url}/allCafeterias`);
+      setCafeterias(res.data);
+    };
+    get_cafeteria_data();
+  }, []);
 
-  
-
+  const clusters = [
+    {
+      animate: true,
+      markers: cafeterias.map((cafeteria, index) => ({
+        identifier: `marker_${index}`,
+        latitude: Number(cafeteria.latitude),
+        longitude: Number(cafeteria.longitude),
+        image: {
+          assetName: "cafeMarker", // 마커 이미지의 이름
+          symbol: "lowDensityCluster", // 클러스터 심볼
+        },
+        width: 40,
+        height: 40,
+      })),
+      maxZoom: 12.99999, // 최대 줌 레벨
+      screenDistance: 100, // 클러스터링에 사용되는 최소 거리
+    },
+  ];
+  // console.log(cafeterias);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-  <View style={{ flex: 1 }}>
-    <NaverMapView
-      style={{ flex: 1 }}
-      ref={ref}
-      camera={currentPosition}
-      onMapClick={(e) => {
-        const { latitude, longitude } = e;
-        updateMapPosition(latitude, longitude);
-      }}
-    >
-      {Cafeterias.map((cafeteria, index) => (
-        <NaverMapMarkerOverlay
-          key={index}
-          latitude={Number(cafeteria.위도)}
-          longitude={Number(cafeteria.경도)}
-          onTap={() => handleSelectCafeteria(cafeteria)}
-          anchor={{ x: 0.5, y: 1 }}
-          caption={{
-              key: "1",
-              text: `${cafeteria.시설명}`,
-          }}
-          width={40}
-          height={40}
-        />
-      ))}
-    </NaverMapView>
-    <View style={styles.searchBar}>
-      <SingleLineInput
-        value={query}
-        placeholder="주소를 입력해주세요"
-        onChangeText={setQuery}
-        onSubmitEditing={onFindAddress}
-      />
-    </View>
-  </View>
-  <Modal
-    isVisible={modalVisible}
-    onBackdropPress={closeModal}
-    style={{ justifyContent: 'flex-end', margin: 0 }}
-  >
-    <View style={styles.modalContent}>
-      <Text style={styles.modalTitle}>{selectedCafeteria?.시설명}</Text>
-      <Text style={styles.modalText}>주소: {selectedCafeteria?.소재지도로명주소}</Text>
-      <Text style={styles.modalText}>전화번호: {selectedCafeteria?.전화번호}</Text>
-      <Text style={styles.modalText}>운영시간: {selectedCafeteria?.급식시간}</Text>
-      <Text style={styles.modalText}>운영요일: {selectedCafeteria?.급식요일}</Text>
-      <TouchableOpacity onPress={goToMapDetail} style={styles.routeButton}>
-          <Text style={styles.routeButtonText}>최단 경로</Text>
-        </TouchableOpacity>
-      <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-        <Text style={styles.closeButtonText}>닫기</Text>
-      </TouchableOpacity>
-    </View>
-  </Modal>
-</SafeAreaView>
+      <View style={{ flex: 1 }}>
+        <NaverMapView
+          style={{ flex: 1 }}
+          ref={ref}
+          camera={currentPosition}
+          clusters={clusters}
+          // onMapClick={(e) => {
+          //   const { latitude, longitude } = e;
+          //   updateMapPosition(latitude, longitude);
+          // }}
+        >
+          {/* 급식소 마커 */}
+          {Platform.OS === "android"
+            ? cafeterias.map(
+                (cafeteria, index) =>
+                  cafeteria.latitude && (
+                    <NaverMapMarkerOverlay
+                      key={index}
+                      latitude={Number(cafeteria.latitude)}
+                      longitude={Number(cafeteria.longitude)}
+                      onTap={() => handleSelectCafeteria(cafeteria)}
+                      anchor={{ x: 0.5, y: 1 }}
+                      caption={{
+                        key: index,
+                        text: `${cafeteria.fcltyNm}`,
+                      }}
+                      width={40}
+                      height={40}
+                      minZoom={13} //ios에서는 이 코드 주석처리
+                    />
+                  )
+              )
+            : cafeterias.map(
+                (cafeteria, index) =>
+                  cafeteria.latitude && (
+                    <NaverMapMarkerOverlay
+                      key={index}
+                      latitude={Number(cafeteria.latitude)}
+                      longitude={Number(cafeteria.longitude)}
+                      onTap={() => handleSelectCafeteria(cafeteria)}
+                      anchor={{ x: 0.5, y: 1 }}
+                      caption={{
+                        key: index,
+                        text: `${cafeteria.fcltyNm}`,
+                      }}
+                      width={40}
+                      height={40}
+                      // minZoom={13} //ios에서는 이 코드 주석처리
+                    />
+                  )
+              )}
+        </NaverMapView>
+        <View style={styles.searchBar}>
+          <SingleLineInput
+            value={query}
+            placeholder="주소를 입력해주세요"
+            onChangeText={setQuery}
+            onSubmitEditing={onFindAddress}
+          />
+        </View>
+      </View>
+      <Modal
+        isVisible={modalVisible}
+        onBackdropPress={closeModal}
+        style={{ justifyContent: "flex-end", margin: 0 }}
+      >
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>{selectedCafeteria?.fcltyNm}</Text>
+          <Text style={styles.modalText}>
+            주소: {selectedCafeteria?.rdnmadr}
+          </Text>
+          <Text style={styles.modalText}>
+            전화번호: {selectedCafeteria?.phoneNumber}
+          </Text>
+          <Text style={styles.modalText}>
+            운영시간: {selectedCafeteria?.mlsvTime}
+          </Text>
+          <Text style={styles.modalText}>
+            운영요일: {selectedCafeteria?.mlsvDate}
+          </Text>
+          <TouchableOpacity onPress={goToMapDetail} style={styles.routeButton}>
+            <Text style={styles.routeButtonText}>최단 경로</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    </SafeAreaView>
   );
 };
 
@@ -204,56 +271,56 @@ export default MapScreen;
 
 const styles = StyleSheet.create({
   searchBar: {
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     left: 20,
     right: 20,
     backgroundColor: "white",
     padding: 15,
     borderRadius: 30,
-    elevation: 5, 
-    shadowColor: "#000", 
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
   modalContent: {
     height: 250,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
   modalText: {
     fontSize: 16,
-    color: '#333', 
+    color: "#333",
     marginBottom: 5,
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#64c2eb',
+    fontWeight: "bold",
+    color: "#64c2eb",
   },
   closeButton: {
     marginTop: 20,
-    backgroundColor: '#64c2eb',
+    backgroundColor: "#64c2eb",
     borderRadius: 20,
     padding: 10,
   },
   closeButtonText: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
     fontSize: 16,
   },
   routeButton: {
-    backgroundColor: '#64c2eb',
+    backgroundColor: "#64c2eb",
     borderRadius: 20,
     padding: 10,
     marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   routeButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
 });

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import com.mjstudio.reactnativenavermap.RNCNaverMapPackage;
 // @react-native-community/geolocation
 import com.reactnativecommunity.geolocation.GeolocationPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-safe-area-context
@@ -68,6 +70,7 @@ public class PackageList {
       new MainReactPackage(mConfig),
       new RNCNaverMapPackage(),
       new GeolocationPackage(),
+      new RNCPickerPackage(),
       new RNGestureHandlerPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage()
