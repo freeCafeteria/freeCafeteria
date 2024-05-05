@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./pages/Home/Home";
 import community from "./pages/Community/Community";
+import Settings from "./pages/Settings/Settings";
 
 import Splash from "./pages/Splash/Splash";
 import OnBoarding from "./pages/Splash/OnBoarding";
@@ -30,6 +31,7 @@ const MainTab = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="community" component={community} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
 };

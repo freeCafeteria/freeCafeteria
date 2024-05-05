@@ -1,20 +1,37 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Animated } from "react-native";
+import useStore from "../../store";
 
 const Splash = ({ navigation }) => {
+  const onboardingCompleted = useStore((state) => state.onboardingCompleted);
+  const fadeAnim = new Animated.Value(1);
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
   React.useEffect(() => {
-    setTimeout(() => {
-      navigation.replace("OnBoarding");
+    const timer = setTimeout(() => {
+      fadeOut();
+      setTimeout(() => {
+        navigation.replace(onboardingCompleted ? "MainTab" : "OnBoarding");
+      }, 500);
     }, 1000);
-  }, [navigation]);
+
+    return () => clearTimeout(timer);
+  }, [navigation, onboardingCompleted, fadeAnim]);
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <Image
         source={require("../../assets/logo.png")}
         style={styles.fullScreenImage}
       />
-    </View>
+    </Animated.View>
   );
 };
 
