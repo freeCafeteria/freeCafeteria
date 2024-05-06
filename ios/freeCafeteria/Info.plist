@@ -22,14 +22,27 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NMFClientId</key>
+	<string>50q91p8kto</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>{{usage description}}</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your explanation for using location always (for iOS 10 and earlier)</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>{{your purpose key}}</key>
+		<string>{{usage description}}</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>{{usage description}}</string>
@@ -47,19 +60,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NMFClientId</key>
-	<string>50q91p8kto</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>{{usage description}}</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
-	<dict>
-		<key>{{your purpose key}}</key>
-		<string>{{usage description}}</string>
-	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your explanation for using location always (for iOS 10 and earlier)</string>
-
 </dict>
 </plist>

@@ -72,8 +72,8 @@ const MapScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
   const [myPosition, setMyPosition] = useState({});
   const [currentPosition, setCurrentPosition] = useState({
-    latitude: 35.9665,
-    longitude: 128.278,
+    latitude: 37.5109,
+    longitude: 127.0437,
     zoom: 10,
   });
   const [modalVisible, setModalVisible] = useState(false);
