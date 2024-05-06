@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Geolocation from "@react-native-community/geolocation";
 
 const storage = {
   getItem: (name) =>
@@ -15,6 +16,7 @@ const useStore = create(
       age: null,
       location: null,
       subLocation: null,
+      userLocation: null,
       selectedCategories: {
         결식: false,
         결식아동: false,
@@ -33,6 +35,7 @@ const useStore = create(
       setAge: (age) => set({ age }),
       setLocation: (location) => set({ location }),
       setSubLocation: (subLocation) => set({ subLocation }),
+      setUserLocation: (userLocation) => set({ userLocation }),
       setSelectedCategories: (selectedCategories) =>
         set({ selectedCategories }),
       toggleCategory: (category) =>
@@ -50,5 +53,20 @@ const useStore = create(
     }
   )
 );
+
+export const getUserLocation = () => {
+  Geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      useStore.setState({ userLocation: { latitude, longitude } });
+    },
+    (error) => console.error(error),
+    {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 1000,
+    }
+  );
+};
 
 export default useStore;
