@@ -21,60 +21,19 @@ import {
   getCoordsFromAddress,
   getCoordsFromKeyword,
 } from "../../utils/GeoUtils";
-import Modal from "react-native-modal";
 import axios from "axios";
-
-const dummyCafeterias = [
-  {
-    시설명: "관운사가야복지센터",
-    소재지도로명주소: "경상북도 성주군 성주읍 경산길 33-1",
-    소재지지번주소: "경상북도 성주군 성주읍 경산리 577-4",
-    운영기관명: "관운사가야복지센터",
-    전화번호: "054-931-3000",
-    급식장소: "관운사가야복지센터",
-    급식대상: "60세이상 저소득층 독거노인 및 결식노인",
-    급식시간: "중식(11:30~13:00)",
-    급식요일: "월, 금",
-    운영시작일자: "2010-01-08",
-    운영종료일자: "",
-    위도: "35.9156622",
-    경도: "128.2843144",
-    데이터기준일자: "2020-07-15",
-    제공기관코드: "5210000",
-    제공기관명: "경상북도 성주군",
-  },
-  {
-    시설명: "이웃과하나노인복지센터",
-    소재지도로명주소: "경상북도 성주군 성주읍 예산3길 8-4",
-    소재지지번주소: "경상북도 성주군 성주읍 예산리 466",
-    운영기관명: "이웃과하나노인복지센터",
-    전화번호: "054-931-1611",
-    급식장소: "이웃과하나노인복지센터",
-    급식대상: "60세이상 저소득층 독거노인 및 결식노인",
-    급식시간: "중식(12:00~13:00)",
-    급식요일: "화, 수",
-    운영시작일자: "2004-11-05",
-    운영종료일자: "",
-    위도: "35.9244472",
-    경도: "128.2859217",
-    데이터기준일자: "2020-07-15",
-    제공기관코드: "5210000",
-    제공기관명: "경상북도 성주군",
-  },
-];
+import ModalComponent from "../../components/Modal";
 
 const MapScreen = ({ navigation }) => {
   const ref = useRef(null);
-  const map = () => ref.current;
   Geolocation.getCurrentPosition((info) =>
-    console.log("currentPosition: ", info)
+    console.log("currentPosition: ", info.coords)
   );
   const [query, setQuery] = useState("");
-  const [myPosition, setMyPosition] = useState({});
   const [currentPosition, setCurrentPosition] = useState({
     latitude: 37.5109,
     longitude: 127.0437,
-    zoom: 10,
+    zoom: 8,
   });
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCafeteria, setSelectedCafeteria] = useState(null);
@@ -83,7 +42,7 @@ const MapScreen = ({ navigation }) => {
     ref.current?.animateCameraTo({
       latitude: Number(latitude),
       longitude: Number(longitude),
-      zoom: 15,
+      zoom: 13,
       duration: 2000,
       easing: "Fly",
     });
@@ -181,10 +140,10 @@ const MapScreen = ({ navigation }) => {
           ref={ref}
           camera={currentPosition}
           clusters={clusters}
-          // onMapClick={(e) => {
-          //   const { latitude, longitude } = e;
-          //   updateMapPosition(latitude, longitude);
-          // }}
+          onMapClick={(e) => {
+            const { latitude, longitude } = e;
+            updateMapPosition(latitude, longitude);
+          }}
         >
           {/* 급식소 마커 */}
           {Platform.OS === "android"
@@ -236,33 +195,12 @@ const MapScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      <Modal
-        isVisible={modalVisible}
-        onBackdropPress={closeModal}
-        style={{ justifyContent: "flex-end", margin: 0 }}
-      >
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{selectedCafeteria?.fcltyNm}</Text>
-          <Text style={styles.modalText}>
-            주소: {selectedCafeteria?.rdnmadr}
-          </Text>
-          <Text style={styles.modalText}>
-            전화번호: {selectedCafeteria?.phoneNumber}
-          </Text>
-          <Text style={styles.modalText}>
-            운영시간: {selectedCafeteria?.mlsvTime}
-          </Text>
-          <Text style={styles.modalText}>
-            운영요일: {selectedCafeteria?.mlsvDate}
-          </Text>
-          <TouchableOpacity onPress={goToMapDetail} style={styles.routeButton}>
-            <Text style={styles.routeButtonText}>최단 경로</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>닫기</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <ModalComponent
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+        selectedCafeteria={selectedCafeteria}
+        goToMapDetail={goToMapDetail}
+      />
     </SafeAreaView>
   );
 };
@@ -283,44 +221,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  },
-  modalContent: {
-    height: 250,
-    backgroundColor: "white",
-    padding: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  modalText: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#64c2eb",
-  },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: "#64c2eb",
-    borderRadius: 20,
-    padding: 10,
-  },
-  closeButtonText: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 16,
-  },
-  routeButton: {
-    backgroundColor: "#64c2eb",
-    borderRadius: 20,
-    padding: 10,
-    marginTop: 10,
-    alignItems: "center",
-  },
-  routeButtonText: {
-    color: "white",
-    fontSize: 16,
   },
 });
