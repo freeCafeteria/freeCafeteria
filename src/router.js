@@ -3,11 +3,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./pages/Home/Home";
+
 import community from "./pages/Community/Community";
+import CafeteriaDetail from "./pages/Community/CafeteriaDetail";
+
 import Settings from "./pages/Settings/Settings";
 
 import Splash from "./pages/Splash/Splash";
 import OnBoarding from "./pages/Splash/OnBoarding";
+
 import MapScreen from "./pages/Map/MapScreen";
 import MapDetail from "./pages/Map/Mapdetail";
 
@@ -46,6 +50,7 @@ const Router = () => {
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="OnBoarding" component={OnBoarding} />
       <Stack.Screen name="MainTab" component={MainTab} />
+      <Stack.Screen name="CafeteriaDetail" component={CafeteriaDetail} />
     </Stack.Navigator>
   );
 };
