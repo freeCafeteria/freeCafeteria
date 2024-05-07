@@ -5332,23 +5332,6 @@
                     }
                 },
                 {
-                    "source": "/Users/seogjin/5-8-icons/freeCafeteria/android/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "50",
-                        "endOffsets": "62"
-                    },
-                    "to": {
-                        "startLines": "1561",
-                        "startColumns": "4",
-                        "startOffsets": "96781",
-                        "endColumns": "50",
-                        "endOffsets": "96827"
-                    }
-                },
-                {
                     "source": "/Users/seogjin/.gradle/caches/transforms-4/1edb212f8aaf7483cd1813eb804d6b0b/transformed/jetified-savedstate-1.2.0/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -5382,25 +5365,6 @@
                         "endLines": "7,13,15,23,24,30,36,73,74,75,80,81,82,83,93,101,104,127,132,133,138,143,144,145,150,151,156,157,162,163,164,170,171,172,177,182,183,195,199,200,201,202,205,206,209,212,213,214,215,216,219,222,223,224,225,230,233,236,237,238,243,244,245,248,251,252,255,258,261,264,265,266,269,272,273,278,279,284,287,290,291,292,293,294,295,296,297,298,299,311,360,361,362,363,373,374,375,378,383,394,400,441,450,457,458,464,465,466,467,476,480,1405,9467,9468,9469,9470,9561,9900,9911,9912,9913,9914,9915,9920,9921,9922,9923,10400,10401,10402,10408,10409,10415,10655,10667,10678,11008,11029,11524,11541,11542",
                         "endColumns": "56,11,60,11,51,47,50,51,60,45,11,51,49,50,11,11,44,58,11,56,11,11,53,56,11,57,11,55,11,56,50,11,51,54,11,11,49,55,11,60,59,69,11,67,11,11,61,64,67,66,11,11,66,64,64,11,11,11,65,66,11,68,65,11,11,66,11,11,11,11,55,64,11,11,64,11,66,11,11,11,64,61,61,61,58,59,60,60,58,11,50,48,47,57,11,46,59,11,11,45,46,51,11,11,54,11,45,54,44,11,11,40,4218,3604,143,4305,502,419,630,651,40,53,49,382,652,497,2876,345,231,139,35,129,133,35,35,231,126,105,483,35,302",
                         "endOffsets": "421,663,773,1064,1116,1448,1758,3808,3869,3915,4109,4161,4211,4262,4681,4993,5149,6729,6926,6983,7178,7360,7414,7471,7663,7721,7917,7973,8167,8224,8275,8497,8549,8604,8794,8970,9020,9651,9811,9872,9932,10002,10135,10203,10332,10458,10520,10585,10653,10720,10843,10968,11035,11100,11165,11346,11467,11588,11654,11721,11931,12000,12066,12191,12317,12384,12510,12637,12762,12889,12945,13010,13136,13259,13324,13532,13599,13779,13899,14019,14084,14146,14208,14270,14329,14389,14450,14511,14570,15038,17995,18044,18092,18150,18609,18656,18716,18822,19002,19632,19928,22467,22797,23080,23135,23397,23443,23498,23543,23884,24021,87514,595691,599296,599440,603746,608976,619769,620927,621579,621620,621674,621724,622346,622999,623497,626374,643157,643389,643529,644034,644164,644591,654049,655081,655693,664868,665512,684202,685324,685627"
-                    }
-                },
-                {
-                    "source": "/Users/seogjin/5-8-icons/freeCafeteria/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "54",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "267"
-                    },
-                    "to": {
-                        "startLines": "1764",
-                        "startColumns": "4",
-                        "startOffsets": "122368",
-                        "endLines": "1767",
-                        "endColumns": "12",
-                        "endOffsets": "122546"
                     }
                 },
                 {
@@ -5456,6 +5420,23 @@
                         "startOffsets": "90902",
                         "endColumns": "49",
                         "endOffsets": "90947"
+                    }
+                },
+                {
+                    "source": "/Users/seogjin/header-compo/freeCafeteria/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
+                    "from": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "154",
+                        "endColumns": "63",
+                        "endOffsets": "213"
+                    },
+                    "to": {
+                        "startLines": "1525",
+                        "startColumns": "4",
+                        "startOffsets": "94204",
+                        "endColumns": "63",
+                        "endOffsets": "94263"
                     }
                 },
                 {
@@ -5590,6 +5571,23 @@
                     }
                 },
                 {
+                    "source": "/Users/seogjin/header-compo/freeCafeteria/android/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "50",
+                        "endOffsets": "62"
+                    },
+                    "to": {
+                        "startLines": "1561",
+                        "startColumns": "4",
+                        "startOffsets": "96781",
+                        "endColumns": "50",
+                        "endOffsets": "96827"
+                    }
+                },
+                {
                     "source": "/Users/seogjin/.gradle/caches/transforms-4/36821f6fff76304d4f59d1aeb6e6e133/transformed/jetified-viewpager2-1.1.0-beta02/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -5645,23 +5643,6 @@
                     }
                 },
                 {
-                    "source": "/Users/seogjin/5-8-icons/freeCafeteria/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
-                    "from": {
-                        "startLines": "6",
-                        "startColumns": "4",
-                        "startOffsets": "154",
-                        "endColumns": "63",
-                        "endOffsets": "213"
-                    },
-                    "to": {
-                        "startLines": "1525",
-                        "startColumns": "4",
-                        "startOffsets": "94204",
-                        "endColumns": "63",
-                        "endOffsets": "94263"
-                    }
-                },
-                {
                     "source": "/Users/seogjin/.gradle/caches/transforms-4/e4ad027880f75464e106461c0bda9074/transformed/lifecycle-runtime-2.5.1/res/values/values.xml",
                     "from": {
                         "startLines": "2",
@@ -5693,6 +5674,25 @@
                         "startOffsets": "87148,88378",
                         "endColumns": "53,66",
                         "endOffsets": "87197,88440"
+                    }
+                },
+                {
+                    "source": "/Users/seogjin/header-compo/freeCafeteria/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "54",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "267"
+                    },
+                    "to": {
+                        "startLines": "1764",
+                        "startColumns": "4",
+                        "startOffsets": "122368",
+                        "endLines": "1767",
+                        "endColumns": "12",
+                        "endOffsets": "122546"
                     }
                 },
                 {
