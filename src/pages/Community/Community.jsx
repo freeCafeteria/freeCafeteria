@@ -9,9 +9,11 @@ import {
   Image,
   Platform,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const searchIcon = require("../../assets/search.png");
 
@@ -19,26 +21,60 @@ const Community = () => {
   const [cafeterias, setCafeterias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
   const navigation = useNavigation();
 
   useEffect(() => {
-    const fetchCafeterias = async () => {
-      const url =
-        Platform.OS === "android"
-          ? "http://10.0.2.2:3000"
-          : "http://localhost:3000";
-      try {
-        const response = await axios.get(`${url}/allCafeterias`);
-        setCafeterias(response.data);
-      } catch (error) {
-        console.error("Error fetching cafeterias:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCafeterias();
+    loadRecentSearches();
   }, []);
+
+  const fetchCafeterias = async () => {
+    const url =
+      Platform.OS === "android"
+        ? "http://10.0.2.2:3000"
+        : "http://localhost:3000";
+    try {
+      const response = await axios.get(`${url}/allCafeterias`);
+      setCafeterias(response.data);
+    } catch (error) {
+      console.error("Error fetching cafeterias:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadRecentSearches = async () => {
+    try {
+      const items = await AsyncStorage.getItem("recentSearches");
+      if (items) {
+        setRecentSearches(JSON.parse(items));
+      }
+    } catch (error) {
+      console.error("Error loading recent searches:", error);
+    }
+  };
+
+  const handleSearch = async () => {
+    const newRecentSearches = [
+      searchQuery,
+      ...recentSearches.filter((s) => s !== searchQuery),
+    ].slice(0, 5);
+    setRecentSearches(newRecentSearches);
+    await AsyncStorage.setItem(
+      "recentSearches",
+      JSON.stringify(newRecentSearches)
+    );
+  };
+
+  const removeSearch = async (search) => {
+    const newRecentSearches = recentSearches.filter((s) => s !== search);
+    setRecentSearches(newRecentSearches);
+    await AsyncStorage.setItem(
+      "recentSearches",
+      JSON.stringify(newRecentSearches)
+    );
+  };
 
   const filteredCafeterias = cafeterias.filter((item) =>
     item.fcltyNm.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,10 +101,37 @@ const Community = () => {
           style={styles.searchInput}
           placeholder="급식소 이름을 검색하세요"
           value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
+          onChangeText={setSearchQuery}
+          onSubmitEditing={handleSearch}
         />
       </View>
-
+      {recentSearches.length > 0 && (
+        <View style={styles.recentSearchesContainer}>
+          <Text style={styles.recentSearchHeader}>최근 검색어</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.recentSearches}
+          >
+            {recentSearches.map((search, index) => (
+              <View key={index} style={styles.searchChip}>
+                <Text
+                  onPress={() => setSearchQuery(search)}
+                  style={styles.chipText}
+                >
+                  {search}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => removeSearch(search)}
+                  style={styles.closeButton}
+                >
+                  <Text style={styles.closeButtonText}>×</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
       {loading ? (
         <ActivityIndicator size="large" color="#64c2eb" />
       ) : (
@@ -77,7 +140,7 @@ const Community = () => {
           renderItem={renderItem}
           keyExtractor={(item, index) => `cafeteria_${index}`}
           ListEmptyComponent={() => (
-            <Text style={styles.emptyText}>무료 급식소 목록이 없습니다.</Text>
+            <Text style={styles.emptyText}>검색 결과가 없습니다.</Text>
           )}
         />
       )}
@@ -148,6 +211,38 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     color: "#6c757d",
+  },
+  recentSearchesContainer: {
+    marginBottom: 20,
+  },
+  recentSearchHeader: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  recentSearches: {
+    flexDirection: "row",
+  },
+  searchChip: {
+    flexDirection: "row",
+    backgroundColor: "#e0e0e0",
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginRight: 8,
+    alignItems: "center",
+  },
+  chipText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  closeButton: {
+    marginLeft: 8,
+    marginTop: 2,
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: "#666",
   },
 });
 
