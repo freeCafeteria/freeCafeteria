@@ -214,12 +214,11 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     backgroundColor: "white",
-    padding: 15,
+    padding: 10,
     borderRadius: 30,
     elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
 });
