@@ -11,20 +11,22 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-// @react-native-async-storage/async-storage
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-// @react-native-picker/picker
-import com.reactnativecommunity.picker.RNCPickerPackage;
 // @mj-studio/react-native-naver-map
 import com.mjstudio.reactnativenavermap.RNCNaverMapPackage;
+// @react-native-async-storage/async-storage
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // @react-native-community/geolocation
 import com.reactnativecommunity.geolocation.GeolocationPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-vector-icons
+import com.oblador.vectoricons.VectorIconsPackage;
 
 public class PackageList {
   private Application application;
@@ -70,13 +72,14 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
-      new AsyncStoragePackage(),
-      new RNCPickerPackage(),
       new RNCNaverMapPackage(),
+      new AsyncStoragePackage(),
       new GeolocationPackage(),
+      new RNCPickerPackage(),
       new RNGestureHandlerPackage(),
       new SafeAreaContextPackage(),
-      new RNScreensPackage()
+      new RNScreensPackage(),
+      new VectorIconsPackage()
     ));
   }
 }

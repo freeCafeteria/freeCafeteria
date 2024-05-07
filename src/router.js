@@ -14,6 +14,7 @@ import OnBoarding from "./pages/Splash/OnBoarding";
 
 import MapScreen from "./pages/Map/MapScreen";
 import MapDetail from "./pages/Map/Mapdetail";
+import { Icon } from "./components/Icons";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,11 +31,36 @@ const Map = () => {
 const MainTab = () => {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, gestureEnabled: false }}
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          switch(route.name) {
+            case 'Home':
+              iconName = focused ? 'home' : 'home-outline';
+              break;
+            case 'Map':
+              iconName = focused ? 'map' : 'map-outline';
+              break;
+            case 'Community':
+              iconName = focused ? 'image' : 'image-outline';
+              break;
+            case 'Settings':
+              iconName = focused ? 'person' : 'person-outline';
+              break;
+            default:
+              iconName = 'circle-outline'; // 기본값
+          }
+
+          const iconColor = focused ? '#64c2eb' : 'gray';
+
+          return <Icon name={iconName} size={size} color={iconColor} />;
+        },
+        headerShown: false,
+      })}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="community" component={community} />
+      <Tab.Screen name="Community" component={community} />
       <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
