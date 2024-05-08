@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import { View, Switch, Text, StyleSheet } from "react-native";
 
-const ToggleButton = ({ onToggle }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
-
+const ToggleButton = ({ toggle, setToggle }) => {
   const toggleSwitch = () => {
-    setIsEnabled((previousState) => !previousState);
-    onToggle(!isEnabled);
+    setToggle(!toggle);
   };
 
   return (
-    <View style={styles.container}>
-      <Switch
-        trackColor={{ false: "#e0e0e0", true: "#a6dcef" }}
-        thumbColor={isEnabled ? "#64c2eb" : "#ffffff"}
-        ios_backgroundColor="#e0e0e0"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
-    </View>
+    <Switch
+      trackColor={{ false: "#e0e0e0", true: "#a6dcef" }}
+      thumbColor={toggle ? "#64c2eb" : "#ffffff"}
+      ios_backgroundColor="#e0e0e0"
+      onValueChange={toggleSwitch}
+      value={toggle}
+    />
   );
 };
 
