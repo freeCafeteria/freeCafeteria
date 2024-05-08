@@ -23,12 +23,16 @@ import {
 } from "../../utils/GeoUtils";
 import axios from "axios";
 import ModalComponent from "../../components/Modal";
+import ToggleButton from "../../components/ToggleButton";
+import { get_now_data } from "../../utils/getFilteringData";
+import useStore from "../../store";
 
 const MapScreen = ({ navigation }) => {
+  const { age, selectedCategories } = useStore((state) => ({
+    age: state.age,
+    selectedCategories: state.selectedCategories,
+  }));
   const ref = useRef(null);
-  Geolocation.getCurrentPosition((info) =>
-    console.log("currentPosition: ", info.coords)
-  );
   const [query, setQuery] = useState("");
   const [currentPosition, setCurrentPosition] = useState({
     latitude: 37.5109,
@@ -113,6 +117,41 @@ const MapScreen = ({ navigation }) => {
     get_cafeteria_data();
   }, []);
 
+  const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
+  useEffect(() => {
+    console.log(toggle);
+    const url =
+      Platform.OS === "android"
+        ? "http://10.0.2.2:3000"
+        : "http://localhost:3000";
+
+    const get_filtered_cafeteria_data = async () => {
+      let { userDate, userTime } = get_now_data();
+
+      let filteredCategories = Object.keys(selectedCategories)
+        .filter((category) => selectedCategories[category])
+        .join(",");
+      const body = {
+        userDate: userDate,
+        userTime: userTime,
+        // userTime: "12:35",
+        userTarget: filteredCategories,
+        userAge: age,
+      };
+      const res = await axios.post(`${url}/filteredCafeterias`, body);
+      setCafeterias(res.data);
+    };
+    const get_cafeteria_data = async () => {
+      const res = await axios.get(`${url}/allCafeterias`);
+      setCafeterias(res.data);
+    };
+    if (toggle) {
+      get_filtered_cafeteria_data();
+    } else {
+      get_cafeteria_data();
+    }
+  }, [toggle]);
+
   const clusters = [
     {
       animate: true,
@@ -138,7 +177,7 @@ const MapScreen = ({ navigation }) => {
         <NaverMapView
           style={{ flex: 1 }}
           ref={ref}
-          camera={currentPosition}
+          // camera={currentPosition}
           clusters={clusters}
           onMapClick={(e) => {
             const { latitude, longitude } = e;
@@ -194,6 +233,9 @@ const MapScreen = ({ navigation }) => {
             onSubmitEditing={onFindAddress}
           />
         </View>
+      </View>
+      <View style={{ position: "absolute", top: 0, left: 0 }}>
+        <ToggleButton toggle={toggle} setToggle={setToggle} />
       </View>
       <ModalComponent
         modalVisible={modalVisible}
