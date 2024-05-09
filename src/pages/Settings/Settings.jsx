@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,17 @@ import {
   ScrollView,
   StyleSheet,
   Modal,
+  Image,
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import useStore from "../../store";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 import { locations, subLocations } from "../Splash/data/locations";
+
+const favoriteIcon = require("../../assets/favorite.png");
+const favoriteFilledIcon = require("../../assets/favorite_filled.png");
 
 const Settings = () => {
   const {
@@ -19,25 +25,55 @@ const Settings = () => {
     location,
     subLocation,
     selectedCategories,
+    favorites,
     setAge,
     setLocation,
     setSubLocation,
     toggleCategory,
+    toggleFavorite,
   } = useStore((state) => ({
     age: state.age,
     location: state.location,
     subLocation: state.subLocation,
     selectedCategories: state.selectedCategories,
+    favorites: state.favorites,
     setAge: state.setAge,
     setLocation: state.setLocation,
     setSubLocation: state.setSubLocation,
     toggleCategory: state.toggleCategory,
+    toggleFavorite: state.toggleFavorite,
   }));
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [cafeterias, setCafeterias] = useState([]);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    fetchCafeterias();
+  }, []);
+
+  const fetchCafeterias = async () => {
+    const url =
+      Platform.OS === "android"
+        ? "http://10.0.2.2:3000"
+        : "http://localhost:3000";
+    try {
+      const response = await axios.get(`${url}/allCafeterias`);
+      setCafeterias(response.data);
+    } catch (error) {
+      console.error("Error fetching cafeterias:", error);
+    }
+  };
 
   const handleSave = () => {
     setModalVisible(true);
+  };
+
+  const handleFavoritePress = (favorite) => {
+    const cafeteria = cafeterias.find((caf) => caf.fcltyNm === favorite);
+    if (cafeteria) {
+      navigation.navigate("CafeteriaDetail", { cafeteria });
+    }
   };
 
   return (
@@ -85,18 +121,48 @@ const Settings = () => {
       )}
       <View style={styles.section}>
         <Text style={styles.label}>키워드:</Text>
-        {Object.keys(selectedCategories).map((category, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.button,
-              selectedCategories[category] ? styles.buttonSelected : null,
-            ]}
-            onPress={() => toggleCategory(category)}
-          >
-            <Text style={styles.buttonText}>{category}</Text>
-          </TouchableOpacity>
-        ))}
+        <View style={styles.buttonContainer}>
+          {Object.keys(selectedCategories).map((category, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.button,
+                selectedCategories[category] ? styles.buttonSelected : null,
+              ]}
+              onPress={() => toggleCategory(category)}
+            >
+              <Text style={styles.buttonText}>{category}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.label}>즐겨찾기 급식소</Text>
+        {favorites.length > 0 ? (
+          favorites.map((favorite, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.favoriteItem}
+              onPress={() => handleFavoritePress(favorite)}
+            >
+              <Text style={styles.favoriteText}>{favorite}</Text>
+              <TouchableOpacity onPress={() => toggleFavorite(favorite)}>
+                <Image
+                  source={
+                    favorites.includes(favorite)
+                      ? favoriteFilledIcon
+                      : favoriteIcon
+                  }
+                  style={styles.favoriteIcon}
+                />
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.noFavoritesText}>
+            즐겨찾기 급식소가 없습니다.
+          </Text>
+        )}
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>저장하기</Text>
@@ -129,7 +195,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f4f4f8",
+    backgroundColor: "#f0f4f7",
   },
   titleContainer: {
     paddingTop: 20,
@@ -137,55 +203,93 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 20,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 25,
+    backgroundColor: "#ffffff",
+    padding: 15,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   label: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: "#666",
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 10,
+    color: "#555",
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f9f9f9",
     borderWidth: 1,
     borderColor: "#ddd",
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 8,
+    padding: 12,
     fontSize: 16,
     color: "#333",
   },
+  buttonContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
   button: {
-    backgroundColor: "#fff",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 10,
+    backgroundColor: "#e9ecef",
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    marginRight: 10,
     marginBottom: 10,
-    alignItems: "center",
   },
   buttonSelected: {
-    backgroundColor: "#cce5ff",
-    borderColor: "#66b0ff",
+    backgroundColor: "#64c2eb",
   },
   buttonText: {
     fontSize: 16,
-    color: "#333",
+    color: "#495057",
   },
   saveButton: {
     backgroundColor: "#64c2eb",
-    padding: 15,
-    borderRadius: 10,
+    paddingVertical: 15,
+    borderRadius: 12,
     alignItems: "center",
+    marginTop: 20,
   },
   saveButtonText: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  favoriteItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: "#ffffff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 2,
+    marginBottom: 10,
+  },
+  favoriteText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  favoriteIcon: {
+    width: 24,
+    height: 24,
+  },
+  noFavoritesText: {
+    fontSize: 16,
+    color: "#777",
+    textAlign: "center",
+    marginTop: 10,
   },
   centeredView: {
     flex: 1,
@@ -193,18 +297,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
-
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-
   modalView: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 20,
+    padding: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -215,37 +312,43 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
     fontSize: 16,
-  },
-  buttonClose: {
-    backgroundColor: "#64c2eb",
+    color: "#333",
   },
 });
 
-const pickerSelectStyles = {
+const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
+    backgroundColor: "#f9f9f9",
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 10,
   },
   inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: "purple",
+    backgroundColor: "#f9f9f9",
+    borderWidth: 1,
+    borderColor: "#ddd",
     borderRadius: 8,
-    color: "black",
-    paddingRight: 30,
+    padding: 12,
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 10,
   },
-};
+});
 
 export default Settings;

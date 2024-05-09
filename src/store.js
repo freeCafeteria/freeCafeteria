@@ -12,7 +12,7 @@ const storage = {
 
 const useStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       age: null,
       location: null,
       subLocation: null,
@@ -32,6 +32,7 @@ const useStore = create(
         노숙인: false,
       },
       onboardingCompleted: false,
+      favorites: [],
       setAge: (age) => set({ age }),
       setLocation: (location) => set({ location }),
       setSubLocation: (subLocation) => set({ subLocation }),
@@ -46,6 +47,13 @@ const useStore = create(
           },
         })),
       completeOnboarding: () => set({ onboardingCompleted: true }),
+      toggleFavorite: (cafeteriaName) => {
+        const { favorites } = get();
+        const updatedFavorites = favorites.includes(cafeteriaName)
+          ? favorites.filter((name) => name !== cafeteriaName)
+          : [...favorites, cafeteriaName];
+        set({ favorites: updatedFavorites });
+      },
     }),
     {
       name: "user-settings",

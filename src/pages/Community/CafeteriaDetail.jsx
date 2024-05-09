@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import {
   View,
+  FlatList,
   Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  FlatList,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import useStore from "../../store";
 import CafeteriaStatus from "./CafeteriaStatus";
 
 const backIcon = require("../../assets/back.png");
+const favoriteIcon = require("../../assets/favorite.png");
+const favoriteFilledIcon = require("../../assets/favorite_filled.png");
 
 const CafeteriaDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { cafeteria } = route.params;
   const [activeTab, setActiveTab] = useState("basic");
+
+  const { favorites, toggleFavorite } = useStore((state) => ({
+    favorites: state.favorites,
+    toggleFavorite: state.toggleFavorite,
+  }));
+
+  const isFavorite = favorites.includes(cafeteria.fcltyNm);
 
   const renderTabContent = () => {
     if (activeTab === "basic") {
@@ -61,6 +71,15 @@ const CafeteriaDetail = () => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{cafeteria.fcltyNm}</Text>
         <Text style={styles.address}>주소: {cafeteria.rdnmadr}</Text>
+        <TouchableOpacity
+          onPress={() => toggleFavorite(cafeteria.fcltyNm)}
+          style={styles.favoriteButton}
+        >
+          <Image
+            source={isFavorite ? favoriteFilledIcon : favoriteIcon}
+            style={styles.favoriteIcon}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.tabContainer}>
@@ -107,6 +126,7 @@ const CafeteriaDetail = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -136,6 +156,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     marginBottom: 10,
     alignItems: "center",
+    position: "relative",
   },
   title: {
     fontSize: 28,
@@ -150,6 +171,16 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: "center",
     paddingBottom: 8,
+  },
+  favoriteButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    padding: 10,
+  },
+  favoriteIcon: {
+    width: 24,
+    height: 24,
   },
   tabContainer: {
     flexDirection: "row",
