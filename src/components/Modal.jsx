@@ -37,7 +37,7 @@ const ModalComponent = ({
   );
 };
 
-export default ModalComponent;
+export default React.memo(ModalComponent);
 
 const styles = StyleSheet.create({
   modalContent: {

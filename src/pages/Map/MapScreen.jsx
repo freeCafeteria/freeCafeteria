@@ -1,18 +1,10 @@
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  Text,
-  Platform,
-} from "react-native";
+import { StyleSheet, SafeAreaView, View, Platform } from "react-native";
 import {
   NaverMapView,
   NaverMapMarkerOverlay,
   NaverMapCircleOverlay,
   NaverMapPolygonOverlay,
   NaverMapPathOverlay,
-  map,
 } from "@mj-studio/react-native-naver-map";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Geolocation from "@react-native-community/geolocation";
@@ -26,6 +18,7 @@ import ModalComponent from "../../components/Modal";
 import ToggleButton from "../../components/ToggleButton";
 import { get_now_data } from "../../utils/getFilteringData";
 import useStore from "../../store";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -103,54 +96,66 @@ const MapScreen = ({ navigation }) => {
     );
   }, [updateMapPosition]);
 
-  //전체 급식소 들고오기
+  //급식소 데이터
   const [cafeterias, setCafeterias] = useState([]);
-  useEffect(() => {
-    const get_cafeteria_data = async () => {
-      const url =
-        Platform.OS === "android"
-          ? "http://10.0.2.2:3000"
-          : "http://localhost:3000";
+  const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
+  const [cafeteriaLoading, setCafeteriaLoading] = useState(true);
+  const url =
+    Platform.OS === "android"
+      ? "http://10.0.2.2:3000"
+      : "http://localhost:3000";
+  const get_cafeteria_data = async () => {
+    try {
       const res = await axios.get(`${url}/allCafeterias`);
       setCafeterias(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setCafeteriaLoading(false);
+    }
+  };
+  const get_filtered_cafeteria_data = async () => {
+    let { userDate, userTime } = get_now_data();
+
+    let filteredCategories = Object.keys(selectedCategories)
+      .filter((category) => selectedCategories[category])
+      .join(",");
+    const body = {
+      userDate: userDate,
+      userTime: userTime,
+      // userTime: "12:35",
+      userTarget: filteredCategories,
+      userAge: age,
     };
+
+    try {
+      const res = await axios.post(`${url}/filteredCafeterias`, body);
+      setCafeterias(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setCafeteriaLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    //처음엔 모든 급식소 데이터 들고오기
     get_cafeteria_data();
   }, []);
 
-  const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
   useEffect(() => {
-    console.log(toggle);
-    const url =
-      Platform.OS === "android"
-        ? "http://10.0.2.2:3000"
-        : "http://localhost:3000";
-
-    const get_filtered_cafeteria_data = async () => {
-      let { userDate, userTime } = get_now_data();
-
-      let filteredCategories = Object.keys(selectedCategories)
-        .filter((category) => selectedCategories[category])
-        .join(",");
-      const body = {
-        userDate: userDate,
-        userTime: userTime,
-        // userTime: "12:35",
-        userTarget: filteredCategories,
-        userAge: age,
-      };
-      const res = await axios.post(`${url}/filteredCafeterias`, body);
-      setCafeterias(res.data);
-    };
-    const get_cafeteria_data = async () => {
-      const res = await axios.get(`${url}/allCafeterias`);
-      setCafeterias(res.data);
-    };
+    setCafeteriaLoading(true);
+    console.log("toggle", toggle);
     if (toggle) {
       get_filtered_cafeteria_data();
     } else {
       get_cafeteria_data();
     }
   }, [toggle]);
+
+  useEffect(() => {
+    console.log("cafeLoading:", cafeteriaLoading);
+  }, [cafeteriaLoading]);
 
   const clusters = [
     {
@@ -174,6 +179,11 @@ const MapScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
+        <Spinner
+          visible={cafeteriaLoading}
+          textContent={"급식소 정보를 들고옵니다"}
+          textStyle={styles.spinnerTextStyle}
+        />
         <NaverMapView
           style={{ flex: 1 }}
           ref={ref}
@@ -234,7 +244,7 @@ const MapScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={{ position: "absolute", top: 0, left: 0 }}>
+      <View style={styles.toggleBtn}>
         <ToggleButton toggle={toggle} setToggle={setToggle} />
       </View>
       <ModalComponent
@@ -262,5 +272,13 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 3.84,
+  },
+  toggleBtn: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });

@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToggleButton;
+export default React.memo(ToggleButton);
