@@ -19,6 +19,7 @@ import ToggleButton from "../../components/ToggleButton";
 import { get_now_data } from "../../utils/getFilteringData";
 import useStore from "../../store";
 import Spinner from "react-native-loading-spinner-overlay";
+import { getMapBounds } from "../../utils/getMapBound";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -176,6 +177,39 @@ const MapScreen = ({ navigation }) => {
     },
   ];
   // console.log(cafeterias);
+
+  // 화면에 보이는 영역만 마커 표시
+  const [screenLatitude, setScreenLatitude] = useState(null);
+  const [screenLongitude, setScreenLongitude] = useState(null);
+  const [screenZoom, setScreenZoom] = useState(null);
+  const [screenCafeteria, setScreenCafeteria] = useState([]); //화면에 보이는 급식소 데이터
+
+  const cameraMovingHandler = (camera) => {
+    console.log(camera.latitude, camera.longitude, camera.zoom);
+    setScreenLatitude(camera.latitude);
+    setScreenLongitude(camera.longitude);
+    setScreenZoom(camera.zoom);
+  };
+
+  const updateCafeteriaMarkers = (minLat, maxLat, minLng, maxLng) => {
+    const updatedCafeterias = cafeterias.filter((cafeteria) => {
+      const lat = parseFloat(cafeteria.latitude);
+      const lng = parseFloat(cafeteria.longitude);
+      return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
+    });
+    setScreenCafeteria(updatedCafeterias);
+  };
+  useEffect(() => {
+    console.log(screenLatitude, screenLongitude, screenZoom);
+    let { minLat, minLng, maxLat, maxLng } = getMapBounds(
+      screenLatitude,
+      screenLongitude,
+      screenZoom
+    );
+    updateCafeteriaMarkers(minLat, maxLat, minLng, maxLng);
+    console.log(minLat, maxLat, minLng, maxLng);
+  }, [screenLatitude, screenLongitude, screenZoom]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -193,10 +227,22 @@ const MapScreen = ({ navigation }) => {
             const { latitude, longitude } = e;
             updateMapPosition(latitude, longitude);
           }}
+          onInitialized={() => {
+            console.log("지도 초기화완료");
+          }}
+          onCameraChanged={(camera) => cameraMovingHandler(camera)}
+          layerGroups={{
+            BICYCLE: false,
+            BUILDING: true,
+            CADASTRAL: false,
+            MOUNTAIN: false,
+            TRAFFIC: true,
+            TRANSIT: true,
+          }}
         >
           {/* 급식소 마커 */}
           {Platform.OS === "android"
-            ? cafeterias.map(
+            ? screenCafeteria.map(
                 (cafeteria, index) =>
                   cafeteria.latitude && (
                     <NaverMapMarkerOverlay
@@ -215,7 +261,7 @@ const MapScreen = ({ navigation }) => {
                     />
                   )
               )
-            : cafeterias.map(
+            : screenCafeteria.map(
                 (cafeteria, index) =>
                   cafeteria.latitude && (
                     <NaverMapMarkerOverlay
