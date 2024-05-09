@@ -14,8 +14,11 @@ import {
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useStore from "../../store";
 
 const searchIcon = require("../../assets/search.png");
+const favoriteIcon = require("../../assets/favorite.png");
+const favoriteFilledIcon = require("../../assets/favorite_filled.png");
 
 const Community = () => {
   const [cafeterias, setCafeterias] = useState([]);
@@ -23,6 +26,10 @@ const Community = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
   const navigation = useNavigation();
+  const { favorites, toggleFavorite } = useStore((state) => ({
+    favorites: state.favorites,
+    toggleFavorite: state.toggleFavorite,
+  }));
 
   useEffect(() => {
     fetchCafeterias();
@@ -81,16 +88,26 @@ const Community = () => {
   );
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.itemContainer}
-      onPress={() =>
-        navigation.navigate("CafeteriaDetail", { cafeteria: item })
-      }
-    >
-      <Text style={styles.itemTitle}>{item.fcltyNm}</Text>
-      <Text style={styles.itemAddress}>{item.rdnmadr}</Text>
-      <Text style={styles.itemDetails}>전화번호: {item.phoneNumber}</Text>
-    </TouchableOpacity>
+    <View style={styles.itemContainer}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("CafeteriaDetail", { cafeteria: item })
+        }
+        style={styles.itemTextContainer}
+      >
+        <Text style={styles.itemTitle}>{item.fcltyNm}</Text>
+        <Text style={styles.itemAddress}>{item.rdnmadr}</Text>
+        <Text style={styles.itemDetails}>전화번호: {item.phoneNumber}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => toggleFavorite(item.fcltyNm)}>
+        <Image
+          source={
+            favorites.includes(item.fcltyNm) ? favoriteFilledIcon : favoriteIcon
+          }
+          style={styles.favoriteIcon}
+        />
+      </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -190,6 +207,12 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderLeftWidth: 4,
     borderLeftColor: "#64c2eb",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  itemTextContainer: {
+    flex: 1,
   },
   itemTitle: {
     fontSize: 20,
@@ -205,6 +228,10 @@ const styles = StyleSheet.create({
   itemDetails: {
     fontSize: 14,
     color: "#495057",
+  },
+  favoriteIcon: {
+    width: 24,
+    height: 24,
   },
   emptyText: {
     textAlign: "center",
