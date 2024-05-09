@@ -184,30 +184,66 @@ const MapScreen = ({ navigation }) => {
   const [screenZoom, setScreenZoom] = useState(null);
   const [screenCafeteria, setScreenCafeteria] = useState([]); //화면에 보이는 급식소 데이터
 
+  let changing;
   const cameraMovingHandler = (camera) => {
-    console.log(camera.latitude, camera.longitude, camera.zoom);
-    setScreenLatitude(camera.latitude);
-    setScreenLongitude(camera.longitude);
-    setScreenZoom(camera.zoom);
+    if (cafeteriaLoading === false) {
+      console.log(camera.latitude, camera.longitude, camera.zoom);
+
+      // setScreenLatitude(camera.latitude);
+      // setScreenLongitude(camera.longitude);
+      // setScreenZoom(camera.zoom);
+      clearTimeout(changing);
+      changing = setTimeout(() => {
+        console.log("change finished!");
+        setScreenLatitude(camera.latitude);
+        setScreenLongitude(camera.longitude);
+        setScreenZoom(camera.zoom);
+
+        scrolling = undefined;
+      }, 1000);
+    }
+    // console.log(camera.latitude, camera.longitude, camera.zoom);
+
+    // // setScreenLatitude(camera.latitude);
+    // // setScreenLongitude(camera.longitude);
+    // // setScreenZoom(camera.zoom);
+    // clearTimeout(changing);
+    // changing = setTimeout(() => {
+    //   console.log("change finished!");
+    //   setScreenLatitude(camera.latitude);
+    //   setScreenLongitude(camera.longitude);
+    //   setScreenZoom(camera.zoom);
+
+    //   scrolling = undefined;
+    // }, 500);
   };
 
   const updateCafeteriaMarkers = (minLat, maxLat, minLng, maxLng) => {
-    const updatedCafeterias = cafeterias.filter((cafeteria) => {
-      const lat = parseFloat(cafeteria.latitude);
-      const lng = parseFloat(cafeteria.longitude);
-      return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
-    });
-    setScreenCafeteria(updatedCafeterias);
+    if (cafeterias.length > 0) {
+      const updatedCafeterias = cafeterias.filter((cafeteria) => {
+        const lat = parseFloat(cafeteria.latitude);
+        const lng = parseFloat(cafeteria.longitude);
+        return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
+      });
+      setScreenCafeteria(updatedCafeterias);
+    }
   };
   useEffect(() => {
-    console.log(screenLatitude, screenLongitude, screenZoom);
-    let { minLat, minLng, maxLat, maxLng } = getMapBounds(
-      screenLatitude,
-      screenLongitude,
-      screenZoom
-    );
-    updateCafeteriaMarkers(minLat, maxLat, minLng, maxLng);
-    console.log(minLat, maxLat, minLng, maxLng);
+    console.log("상태값 변화");
+    if (
+      screenLatitude !== null &&
+      screenLongitude !== null &&
+      screenZoom !== null
+    ) {
+      console.log(screenLatitude, screenLongitude, screenZoom);
+      let { minLat, minLng, maxLat, maxLng } = getMapBounds(
+        screenLatitude,
+        screenLongitude,
+        screenZoom
+      );
+      console.log(minLat, maxLat, minLng, maxLng);
+      updateCafeteriaMarkers(minLat, maxLat, minLng, maxLng);
+    }
   }, [screenLatitude, screenLongitude, screenZoom]);
 
   return (
