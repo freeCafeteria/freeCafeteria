@@ -19,6 +19,8 @@ import ToggleButton from "../../components/ToggleButton";
 import { get_now_data } from "../../utils/getFilteringData";
 import useStore from "../../store";
 import Spinner from "react-native-loading-spinner-overlay";
+import useDebounce from "../../utils/useDebounce";
+import { getMapBounds } from "../../utils/getMapBound";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -176,6 +178,63 @@ const MapScreen = ({ navigation }) => {
     },
   ];
   // console.log(cafeterias);
+
+  // 화면에 보이는 영역만 마커 표시
+  const [screenLatitude, setScreenLatitude] = useState(null);
+  const [screenLongitude, setScreenLongitude] = useState(null);
+  const [screenZoom, setScreenZoom] = useState(null);
+  const [screenCafeteria, setScreenCafeteria] = useState([]); //화면에 보이는 급식소 데이터
+
+  const cameraMovingHandler = (camera) => {
+    console.log(camera.latitude, camera.longitude, camera.zoom);
+    setScreenLatitude(camera.latitude);
+    setScreenLongitude(camera.longitude);
+    setScreenZoom(camera.zoom);
+  };
+
+  const debouncedLatitude = useDebounce({ value: screenLatitude, delay: 500 });
+  const debouncedLongitude = useDebounce({
+    value: screenLongitude,
+    delay: 500,
+  });
+  const debouncedZoom = useDebounce({ value: screenZoom, delay: 500 });
+
+  const updateCafeteriaMarkers = useCallback(
+    (minLat, maxLat, minLng, maxLng) => {
+      if (cafeterias.length > 0) {
+        const updatedCafeterias = cafeterias.filter((cafeteria) => {
+          const lat = parseFloat(cafeteria.latitude);
+          const lng = parseFloat(cafeteria.longitude);
+          return (
+            lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng
+          );
+        });
+        setScreenCafeteria(updatedCafeterias);
+        console.log("마커개수", updatedCafeterias.length);
+      }
+    },
+    [cafeterias]
+  );
+
+  useEffect(() => {
+    if (debouncedLatitude && debouncedLongitude && debouncedZoom) {
+      console.log(
+        "debounced",
+        debouncedLatitude,
+        debouncedLongitude,
+        debouncedZoom
+      );
+      let { minLat, minLng, maxLat, maxLng } = getMapBounds(
+        debouncedLatitude,
+        debouncedLongitude,
+        debouncedZoom
+      );
+      console.log("계산완료", minLat, maxLat, minLng, maxLng);
+      updateCafeteriaMarkers(minLat, maxLat, minLng, maxLng);
+    }
+  }, [debouncedLatitude, debouncedLongitude, debouncedZoom, cafeterias]);
+  // cafeterias도 있어야 토글로 인해서 급식소정보가 변경되었을 떄도 적용됨
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -193,10 +252,22 @@ const MapScreen = ({ navigation }) => {
             const { latitude, longitude } = e;
             updateMapPosition(latitude, longitude);
           }}
+          onInitialized={() => {
+            console.log("지도 초기화완료");
+          }}
+          onCameraChanged={(camera) => cameraMovingHandler(camera)}
+          layerGroups={{
+            BICYCLE: false,
+            BUILDING: true,
+            CADASTRAL: false,
+            MOUNTAIN: false,
+            TRAFFIC: true,
+            TRANSIT: true,
+          }}
         >
           {/* 급식소 마커 */}
           {Platform.OS === "android"
-            ? cafeterias.map(
+            ? screenCafeteria.map(
                 (cafeteria, index) =>
                   cafeteria.latitude && (
                     <NaverMapMarkerOverlay
@@ -209,13 +280,13 @@ const MapScreen = ({ navigation }) => {
                         key: index,
                         text: `${cafeteria.fcltyNm}`,
                       }}
-                      width={40}
-                      height={40}
+                      width={30}
+                      height={30}
                       minZoom={13} //ios에서는 이 코드 주석처리
                     />
                   )
               )
-            : cafeterias.map(
+            : screenCafeteria.map(
                 (cafeteria, index) =>
                   cafeteria.latitude && (
                     <NaverMapMarkerOverlay
@@ -228,8 +299,8 @@ const MapScreen = ({ navigation }) => {
                         key: index,
                         text: `${cafeteria.fcltyNm}`,
                       }}
-                      width={40}
-                      height={40}
+                      width={30}
+                      height={30}
                       // minZoom={13} //ios에서는 이 코드 주석처리
                     />
                   )
