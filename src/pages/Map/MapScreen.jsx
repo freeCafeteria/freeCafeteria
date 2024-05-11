@@ -19,6 +19,7 @@ import ToggleButton from "../../components/ToggleButton";
 import { get_now_data } from "../../utils/getFilteringData";
 import useStore from "../../store";
 import Spinner from "react-native-loading-spinner-overlay";
+import useDebounce from "../../utils/useDebounce";
 import { getMapBounds } from "../../utils/getMapBound";
 
 const MapScreen = ({ navigation }) => {
@@ -184,67 +185,55 @@ const MapScreen = ({ navigation }) => {
   const [screenZoom, setScreenZoom] = useState(null);
   const [screenCafeteria, setScreenCafeteria] = useState([]); //화면에 보이는 급식소 데이터
 
-  let changing;
   const cameraMovingHandler = (camera) => {
-    if (cafeteriaLoading === false) {
-      console.log(camera.latitude, camera.longitude, camera.zoom);
-
-      // setScreenLatitude(camera.latitude);
-      // setScreenLongitude(camera.longitude);
-      // setScreenZoom(camera.zoom);
-      clearTimeout(changing);
-      changing = setTimeout(() => {
-        console.log("change finished!");
-        setScreenLatitude(camera.latitude);
-        setScreenLongitude(camera.longitude);
-        setScreenZoom(camera.zoom);
-
-        scrolling = undefined;
-      }, 1000);
-    }
-    // console.log(camera.latitude, camera.longitude, camera.zoom);
-
-    // // setScreenLatitude(camera.latitude);
-    // // setScreenLongitude(camera.longitude);
-    // // setScreenZoom(camera.zoom);
-    // clearTimeout(changing);
-    // changing = setTimeout(() => {
-    //   console.log("change finished!");
-    //   setScreenLatitude(camera.latitude);
-    //   setScreenLongitude(camera.longitude);
-    //   setScreenZoom(camera.zoom);
-
-    //   scrolling = undefined;
-    // }, 500);
+    console.log(camera.latitude, camera.longitude, camera.zoom);
+    setScreenLatitude(camera.latitude);
+    setScreenLongitude(camera.longitude);
+    setScreenZoom(camera.zoom);
   };
 
-  const updateCafeteriaMarkers = (minLat, maxLat, minLng, maxLng) => {
-    if (cafeterias.length > 0) {
-      const updatedCafeterias = cafeterias.filter((cafeteria) => {
-        const lat = parseFloat(cafeteria.latitude);
-        const lng = parseFloat(cafeteria.longitude);
-        return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
-      });
-      setScreenCafeteria(updatedCafeterias);
-    }
-  };
+  const debouncedLatitude = useDebounce({ value: screenLatitude, delay: 500 });
+  const debouncedLongitude = useDebounce({
+    value: screenLongitude,
+    delay: 500,
+  });
+  const debouncedZoom = useDebounce({ value: screenZoom, delay: 500 });
+
+  const updateCafeteriaMarkers = useCallback(
+    (minLat, maxLat, minLng, maxLng) => {
+      if (cafeterias.length > 0) {
+        const updatedCafeterias = cafeterias.filter((cafeteria) => {
+          const lat = parseFloat(cafeteria.latitude);
+          const lng = parseFloat(cafeteria.longitude);
+          return (
+            lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng
+          );
+        });
+        setScreenCafeteria(updatedCafeterias);
+        console.log("마커개수", updatedCafeterias.length);
+      }
+    },
+    [cafeterias]
+  );
+
   useEffect(() => {
-    console.log("상태값 변화");
-    if (
-      screenLatitude !== null &&
-      screenLongitude !== null &&
-      screenZoom !== null
-    ) {
-      console.log(screenLatitude, screenLongitude, screenZoom);
-      let { minLat, minLng, maxLat, maxLng } = getMapBounds(
-        screenLatitude,
-        screenLongitude,
-        screenZoom
+    if (debouncedLatitude && debouncedLongitude && debouncedZoom) {
+      console.log(
+        "debounced",
+        debouncedLatitude,
+        debouncedLongitude,
+        debouncedZoom
       );
-      console.log(minLat, maxLat, minLng, maxLng);
+      let { minLat, minLng, maxLat, maxLng } = getMapBounds(
+        debouncedLatitude,
+        debouncedLongitude,
+        debouncedZoom
+      );
+      console.log("계산완료", minLat, maxLat, minLng, maxLng);
       updateCafeteriaMarkers(minLat, maxLat, minLng, maxLng);
     }
-  }, [screenLatitude, screenLongitude, screenZoom]);
+  }, [debouncedLatitude, debouncedLongitude, debouncedZoom, cafeterias]);
+  // cafeterias도 있어야 토글로 인해서 급식소정보가 변경되었을 떄도 적용됨
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -291,8 +280,8 @@ const MapScreen = ({ navigation }) => {
                         key: index,
                         text: `${cafeteria.fcltyNm}`,
                       }}
-                      width={40}
-                      height={40}
+                      width={30}
+                      height={30}
                       minZoom={13} //ios에서는 이 코드 주석처리
                     />
                   )
@@ -310,8 +299,8 @@ const MapScreen = ({ navigation }) => {
                         key: index,
                         text: `${cafeteria.fcltyNm}`,
                       }}
-                      width={40}
-                      height={40}
+                      width={30}
+                      height={30}
                       // minZoom={13} //ios에서는 이 코드 주석처리
                     />
                   )
