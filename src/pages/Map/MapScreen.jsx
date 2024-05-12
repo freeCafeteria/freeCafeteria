@@ -106,9 +106,35 @@ const MapScreen = ({ navigation }) => {
     Platform.OS === "android"
       ? "http://10.0.2.2:3000"
       : "http://localhost:3000";
-  const get_cafeteria_data = async () => {
+
+  const [userLatitude, setUserLatitude] = useState();
+  const [userLongitude, setUserLongitude] = useState();
+
+  const get_user_location = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLatitude(latitude);
+        setUserLongitude(longitude);
+      },
+      (error) => console.error("Error getting location:", error)
+    );
+    console.log("유저좌표", userLatitude, userLongitude);
+    console.log();
+    console.log();
+  };
+
+  const get_user_around_cafeteria_data = async () => {
     try {
-      const res = await axios.get(`${url}/allCafeterias`);
+      //사용자 현재 위치 기반으로 데이터 불러오기
+      get_user_location();
+      const body = {
+        // userLatitude: "37.24400138644693",
+        // userLongitude: "127.07712469492382",
+        userLatitude: userLatitude,
+        userLongitude: userLongitude,
+      };
+      const res = await axios.post(`${url}/userAroundCafeterias`, body);
       setCafeterias(res.data);
     } catch (error) {
       console.log(error);
@@ -116,22 +142,30 @@ const MapScreen = ({ navigation }) => {
       setCafeteriaLoading(false);
     }
   };
+
   const get_filtered_cafeteria_data = async () => {
+    get_user_location();
     let { userDate, userTime } = get_now_data();
 
     let filteredCategories = Object.keys(selectedCategories)
       .filter((category) => selectedCategories[category])
       .join(",");
     const body = {
-      userDate: userDate,
-      userTime: userTime,
-      // userTime: "12:35",
+      // userLatitude: "37.24400138644693",
+      // userLongitude: "127.07712469492382",
+      userLatitude: userLatitude,
+      userLongitude: userLongitude,
+      userDate: "수",
+      userTime: "12:15",
+      // userDate: userDate,
+      // userTime: userTime,
       userTarget: filteredCategories,
       userAge: age,
     };
 
     try {
       const res = await axios.post(`${url}/filteredCafeterias`, body);
+      console.log("cafeterias changed");
       setCafeterias(res.data);
     } catch (error) {
       console.log(error);
@@ -142,7 +176,7 @@ const MapScreen = ({ navigation }) => {
 
   useEffect(() => {
     //처음엔 모든 급식소 데이터 들고오기
-    get_cafeteria_data();
+    get_user_around_cafeteria_data();
   }, []);
 
   useEffect(() => {
@@ -151,7 +185,7 @@ const MapScreen = ({ navigation }) => {
     if (toggle) {
       get_filtered_cafeteria_data();
     } else {
-      get_cafeteria_data();
+      get_user_around_cafeteria_data();
     }
   }, [toggle]);
 
@@ -177,7 +211,6 @@ const MapScreen = ({ navigation }) => {
       screenDistance: 100, // 클러스터링에 사용되는 최소 거리
     },
   ];
-  // console.log(cafeterias);
 
   // 화면에 보이는 영역만 마커 표시
   const [screenLatitude, setScreenLatitude] = useState(null);
@@ -211,6 +244,9 @@ const MapScreen = ({ navigation }) => {
         });
         setScreenCafeteria(updatedCafeterias);
         console.log("마커개수", updatedCafeterias.length);
+      } else {
+        //필터링해서 이용가능한 급식소가 0개일경우
+        setScreenCafeteria([]);
       }
     },
     [cafeterias]
