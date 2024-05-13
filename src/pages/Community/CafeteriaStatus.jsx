@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const CafeteriaStatus = ({ cafeteriaName }) => {
   const [statusData, setStatusData] = useState([]);
@@ -21,47 +21,35 @@ const CafeteriaStatus = ({ cafeteriaName }) => {
 
   const fetchStatusData = async () => {
     try {
-      const storedData = await AsyncStorage.getItem(`status_${cafeteriaName}`);
-      let data = storedData ? JSON.parse(storedData) : [];
-      // 현재 시간과 비교하여 24시간 이내의 데이터만 필터링
-      const filteredData = data.filter(
-        (item) =>
-          new Date().getTime() - new Date(item.date).getTime() <
-          24 * 60 * 60 * 1000
+      const response = await axios.get(
+        "http://localhost:3000/cafeteriaStatus",
+        {
+          params: { cafeteriaName },
+        }
       );
-      // 필터링된 데이터가 원본 데이터와 다르면 업데이트
-      if (data.length !== filteredData.length) {
-        await AsyncStorage.setItem(
-          `status_${cafeteriaName}`,
-          JSON.stringify(filteredData)
-        );
-        data = filteredData; // 최신 데이터로 갱신
-      }
-      setStatusData(data);
+      setStatusData(response.data);
     } catch (error) {
-      console.error("Error fetching status from AsyncStorage:", error);
+      console.error("서버에서 현황 가져오는 중 오류 발생: ", error);
     }
   };
 
   const handleSubmit = async () => {
     if (newStatus.trim() && rating) {
       const newEntry = {
-        id: Date.now(),
         status: newStatus,
         rating,
         date: new Date().toISOString(),
       };
       try {
-        const updatedData = [...statusData, newEntry];
-        await AsyncStorage.setItem(
-          `status_${cafeteriaName}`,
-          JSON.stringify(updatedData)
-        );
+        await axios.post("http://localhost:3000/cafeteriaStatus", {
+          cafeteriaName,
+          ...newEntry,
+        });
         setNewStatus("");
         setRating("");
         fetchStatusData();
       } catch (error) {
-        console.error("Error updating status in AsyncStorage:", error);
+        console.error("서버에 현황 등록하는 중 오류 발생: ", error);
       }
     } else {
       Alert.alert("오류", "현황과 별점을 모두 입력해주세요.");
