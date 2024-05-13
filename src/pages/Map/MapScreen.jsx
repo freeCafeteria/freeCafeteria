@@ -1,4 +1,11 @@
-import { StyleSheet, SafeAreaView, View, Platform } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Platform,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import {
   NaverMapView,
   NaverMapMarkerOverlay,
@@ -21,6 +28,7 @@ import useStore from "../../store";
 import Spinner from "react-native-loading-spinner-overlay";
 import useDebounce from "../../utils/useDebounce";
 import { getMapBounds } from "../../utils/getMapBound";
+import aroundIcon from "../../assets/aroundCafeteriaBtn.png";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -131,6 +139,7 @@ const MapScreen = ({ navigation }) => {
       };
       const res = await axios.post(`${url}/userAroundCafeterias`, body);
       setCafeterias(res.data);
+      // setCafeterias(res.data.slice(0, 11));
     } catch (error) {
       console.log(error);
     } finally {
@@ -178,7 +187,6 @@ const MapScreen = ({ navigation }) => {
     );
     if (centerLatitude && centerLongitude) {
       //undefined가 아닐 때
-      console.log(centerLatitude, 1);
       get_user_around_cafeteria_data();
     }
   }, [centerLatitude, centerLongitude]);
@@ -189,7 +197,6 @@ const MapScreen = ({ navigation }) => {
       get_filtered_cafeteria_data();
     } else {
       if (centerLatitude && centerLongitude) {
-        console.log(centerLatitude, 2);
         get_user_around_cafeteria_data();
       }
     }
@@ -251,7 +258,7 @@ const MapScreen = ({ navigation }) => {
           );
         });
         setScreenCafeteria(updatedCafeterias);
-        console.log("마커개수", updatedCafeterias.length);
+        console.log("화면에 마커개수", updatedCafeterias.length);
       } else {
         //필터링해서 이용가능한 급식소가 0개일경우
         setScreenCafeteria([]);
@@ -261,8 +268,9 @@ const MapScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
-    console.log("cameraMoving!!!", cameraMoving);
-  }, [cameraMoving]);
+    console.log("현재보유하고 있는 급식소 개수", cafeterias.length);
+  }, [cafeterias]);
+
   //카메라 움직임이 멈췄을 떄 동작
   useEffect(() => {
     if (debouncedLatitude && debouncedLongitude && debouncedZoom) {
@@ -373,6 +381,11 @@ const MapScreen = ({ navigation }) => {
       <View style={styles.toggleBtn}>
         <ToggleButton toggle={toggle} setToggle={setToggle} />
       </View>
+      <View style={styles.aroundBtn}>
+        <TouchableOpacity onPress={get_user_location}>
+          <Image source={aroundIcon} style={{ width: 32, height: 32 }} />
+        </TouchableOpacity>
+      </View>
       <ModalComponent
         modalVisible={modalVisible}
         closeModal={closeModal}
@@ -403,6 +416,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
+  },
+  aroundBtn: {
+    position: "absolute",
+    bottom: 20,
+    right: 80,
   },
   spinnerTextStyle: {
     color: "#FFF",
