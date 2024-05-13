@@ -29,11 +29,7 @@ const MapScreen = ({ navigation }) => {
   }));
   const ref = useRef(null);
   const [query, setQuery] = useState("");
-  const [currentPosition, setCurrentPosition] = useState({
-    latitude: 37.5109,
-    longitude: 127.0437,
-    zoom: 8,
-  });
+
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCafeteria, setSelectedCafeteria] = useState(null);
 
@@ -57,6 +53,8 @@ const MapScreen = ({ navigation }) => {
 
     if (result) {
       updateMapPosition(result.latitude, result.longitude);
+      setCenterLatitude(result.latitude);
+      setCenterLongitude(result.longitude);
       setQuery(""); // 검색 후 입력 필드 초기화
     } else {
       console.log("검색 결과가 없습니다.");
@@ -78,7 +76,7 @@ const MapScreen = ({ navigation }) => {
     setModalVisible(false); // 모달 닫기
     navigation.navigate("MapDetail", {
       cafeteria: selectedCafeteria,
-      userLocation: currentPosition, // 사용자의 현재 위치 전달
+      userLocation: { latitude: centerLatitude, longitude: centerLongitude }, // 사용자의 현재 위치 전달
     });
   };
 
@@ -101,38 +99,35 @@ const MapScreen = ({ navigation }) => {
   //급식소 데이터
   const [cafeterias, setCafeterias] = useState([]);
   const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
-  const [cafeteriaLoading, setCafeteriaLoading] = useState(true);
+  const [cafeteriaLoading, setCafeteriaLoading] = useState(false);
   const url =
     Platform.OS === "android"
       ? "http://10.0.2.2:3000"
       : "http://localhost:3000";
 
-  const [userLatitude, setUserLatitude] = useState();
-  const [userLongitude, setUserLongitude] = useState();
+  const [centerLatitude, setCenterLatitude] = useState();
+  const [centerLongitude, setCenterLongitude] = useState();
 
   const get_user_location = () => {
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setUserLatitude(latitude);
-        setUserLongitude(longitude);
+        setCenterLatitude(latitude);
+        setCenterLongitude(longitude);
       },
       (error) => console.error("Error getting location:", error)
     );
-    console.log("유저좌표", userLatitude, userLongitude);
+    console.log("중심좌표", centerLatitude, centerLongitude);
     console.log();
     console.log();
   };
 
   const get_user_around_cafeteria_data = async () => {
+    setCafeteriaLoading(true);
     try {
-      //사용자 현재 위치 기반으로 데이터 불러오기
-      get_user_location();
       const body = {
-        // userLatitude: "37.24400138644693",
-        // userLongitude: "127.07712469492382",
-        userLatitude: userLatitude,
-        userLongitude: userLongitude,
+        userLatitude: centerLatitude,
+        userLongitude: centerLongitude,
       };
       const res = await axios.post(`${url}/userAroundCafeterias`, body);
       setCafeterias(res.data);
@@ -144,20 +139,17 @@ const MapScreen = ({ navigation }) => {
   };
 
   const get_filtered_cafeteria_data = async () => {
-    get_user_location();
+    setCafeteriaLoading(true);
     let { userDate, userTime } = get_now_data();
 
     let filteredCategories = Object.keys(selectedCategories)
       .filter((category) => selectedCategories[category])
       .join(",");
     const body = {
-      // userLatitude: "37.24400138644693",
-      // userLongitude: "127.07712469492382",
-      userLatitude: userLatitude,
-      userLongitude: userLongitude,
-      userDate: "수",
+      userLatitude: centerLatitude,
+      userLongitude: centerLongitude,
+      userDate: userDate,
       userTime: "12:15",
-      // userDate: userDate,
       // userTime: userTime,
       userTarget: filteredCategories,
       userAge: age,
@@ -175,17 +167,31 @@ const MapScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    //처음엔 모든 급식소 데이터 들고오기
-    get_user_around_cafeteria_data();
+    //유저 위치 들고오기
+    get_user_location();
   }, []);
+  useEffect(() => {
+    console.log(
+      "중심좌표------------------------------>",
+      centerLatitude,
+      centerLongitude
+    );
+    if (centerLatitude && centerLongitude) {
+      //undefined가 아닐 때
+      console.log(centerLatitude, 1);
+      get_user_around_cafeteria_data();
+    }
+  }, [centerLatitude, centerLongitude]);
 
   useEffect(() => {
-    setCafeteriaLoading(true);
     console.log("toggle", toggle);
     if (toggle) {
       get_filtered_cafeteria_data();
     } else {
-      get_user_around_cafeteria_data();
+      if (centerLatitude && centerLongitude) {
+        console.log(centerLatitude, 2);
+        get_user_around_cafeteria_data();
+      }
     }
   }, [toggle]);
 
@@ -217,9 +223,11 @@ const MapScreen = ({ navigation }) => {
   const [screenLongitude, setScreenLongitude] = useState(null);
   const [screenZoom, setScreenZoom] = useState(null);
   const [screenCafeteria, setScreenCafeteria] = useState([]); //화면에 보이는 급식소 데이터
+  const [cameraMoving, setCameraMoving] = useState(false);
 
   const cameraMovingHandler = (camera) => {
     console.log(camera.latitude, camera.longitude, camera.zoom);
+    setCameraMoving(true);
     setScreenLatitude(camera.latitude);
     setScreenLongitude(camera.longitude);
     setScreenZoom(camera.zoom);
@@ -253,7 +261,12 @@ const MapScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
+    console.log("cameraMoving!!!", cameraMoving);
+  }, [cameraMoving]);
+  //카메라 움직임이 멈췄을 떄 동작
+  useEffect(() => {
     if (debouncedLatitude && debouncedLongitude && debouncedZoom) {
+      setCameraMoving(false);
       console.log(
         "debounced",
         debouncedLatitude,
@@ -282,7 +295,11 @@ const MapScreen = ({ navigation }) => {
         <NaverMapView
           style={{ flex: 1 }}
           ref={ref}
-          // camera={currentPosition}
+          camera={{
+            latitude: centerLatitude,
+            longitude: centerLongitude,
+            zoom: 13,
+          }}
           clusters={clusters}
           onMapClick={(e) => {
             const { latitude, longitude } = e;
@@ -305,7 +322,8 @@ const MapScreen = ({ navigation }) => {
           {Platform.OS === "android"
             ? screenCafeteria.map(
                 (cafeteria, index) =>
-                  cafeteria.latitude && (
+                  cafeteria.latitude &&
+                  !cameraMoving && (
                     <NaverMapMarkerOverlay
                       key={index}
                       latitude={Number(cafeteria.latitude)}
@@ -324,7 +342,8 @@ const MapScreen = ({ navigation }) => {
               )
             : screenCafeteria.map(
                 (cafeteria, index) =>
-                  cafeteria.latitude && (
+                  cafeteria.latitude &&
+                  !cameraMoving && (
                     <NaverMapMarkerOverlay
                       key={index}
                       latitude={Number(cafeteria.latitude)}
