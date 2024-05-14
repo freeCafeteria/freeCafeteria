@@ -77,96 +77,99 @@ const Settings = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>설정</Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.label}>나이</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setAge}
-          value={age ? age.toString() : ""}
-          placeholder="나이를 입력해주세요"
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.label}>거주지</Text>
-        <RNPickerSelect
-          onValueChange={setLocation}
-          items={locations.map((loc) => ({
-            label: loc.label,
-            value: loc.value,
-          }))}
-          value={location}
-          placeholder={{ label: "거주지를 선택해주세요", value: null }}
-          style={pickerSelectStyles}
-        />
-      </View>
-      {location && (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>설정</Text>
+        </View>
         <View style={styles.section}>
-          <Text style={styles.label}>세부 거주지</Text>
+          <Text style={styles.label}>나이</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setAge}
+            value={age ? age.toString() : ""}
+            placeholder="나이를 입력해주세요"
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.label}>거주지</Text>
           <RNPickerSelect
-            onValueChange={setSubLocation}
-            items={subLocations[location].map((subLoc) => ({
-              label: subLoc,
-              value: subLoc,
+            onValueChange={setLocation}
+            items={locations.map((loc) => ({
+              label: loc.label,
+              value: loc.value,
             }))}
-            value={subLocation}
-            placeholder={{ label: "세부 거주지를 선택해주세요", value: null }}
+            value={location}
+            placeholder={{ label: "거주지를 선택해주세요", value: null }}
             style={pickerSelectStyles}
           />
         </View>
-      )}
-      <View style={styles.section}>
-        <Text style={styles.label}>키워드:</Text>
-        <View style={styles.buttonContainer}>
-          {Object.keys(selectedCategories).map((category, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.button,
-                selectedCategories[category] ? styles.buttonSelected : null,
-              ]}
-              onPress={() => toggleCategory(category)}
-            >
-              <Text style={styles.buttonText}>{category}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.label}>즐겨찾기 급식소</Text>
-        {favorites.length > 0 ? (
-          favorites.map((favorite, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.favoriteItem}
-              onPress={() => handleFavoritePress(favorite)}
-            >
-              <Text style={styles.favoriteText}>{favorite}</Text>
-              <TouchableOpacity onPress={() => toggleFavorite(favorite)}>
-                <Image
-                  source={
-                    favorites.includes(favorite)
-                      ? favoriteFilledIcon
-                      : favoriteIcon
-                  }
-                  style={styles.favoriteIcon}
-                />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text style={styles.noFavoritesText}>
-            즐겨찾기 급식소가 없습니다.
-          </Text>
+        {location && (
+          <View style={styles.section}>
+            <Text style={styles.label}>세부 거주지</Text>
+            <RNPickerSelect
+              onValueChange={setSubLocation}
+              items={subLocations[location].map((subLoc) => ({
+                label: subLoc,
+                value: subLoc,
+              }))}
+              value={subLocation}
+              placeholder={{ label: "세부 거주지를 선택해주세요", value: null }}
+              style={pickerSelectStyles}
+            />
+          </View>
         )}
-      </View>
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>저장하기</Text>
-      </TouchableOpacity>
+        <View style={styles.section}>
+          <Text style={styles.label}>키워드:</Text>
+          <View style={styles.buttonContainer}>
+            {Object.keys(selectedCategories).map((category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.button,
+                  selectedCategories[category] ? styles.buttonSelected : null,
+                ]}
+                onPress={() => toggleCategory(category)}
+              >
+                <Text style={styles.buttonText}>{category}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.label}>즐겨찾기 급식소</Text>
+          {favorites.length > 0 ? (
+            favorites.map((favorite, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.favoriteItem}
+                onPress={() => handleFavoritePress(favorite)}
+              >
+                <Text style={styles.favoriteText}>{favorite}</Text>
+                <TouchableOpacity onPress={() => toggleFavorite(favorite)}>
+                  <Image
+                    source={
+                      favorites.includes(favorite)
+                        ? favoriteFilledIcon
+                        : favoriteIcon
+                    }
+                    style={styles.favoriteIcon}
+                  />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.noFavoritesText}>
+              즐겨찾기 급식소가 없습니다.
+            </Text>
+          )}
+        </View>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.saveButtonText}>저장하기</Text>
+        </TouchableOpacity>
+        <View style={{ height: 60 }} />
+      </ScrollView>
       <Modal
         animationType="slide"
         transparent={true}
@@ -187,15 +190,18 @@ const Settings = () => {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: "#f0f4f7",
+  },
+  scrollViewContent: {
+    padding: 20,
+    paddingBottom: 20,
   },
   titleContainer: {
     paddingTop: 20,
