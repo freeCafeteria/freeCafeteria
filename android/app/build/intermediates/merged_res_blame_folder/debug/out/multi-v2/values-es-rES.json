@@ -4,7 +4,7 @@
             "outputFile": "com.freecafeteria.app-mergeDebugResources-35:/values-es-rES/values-es-rES.xml",
             "map": [
                 {
-                    "source": "/Users/sehunhwang/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/res/values-es-rES/values-es-rES.xml",
+                    "source": "/Users/seogjin/.gradle/caches/transforms-4/813da8d64613d3a874726517fb776e54/transformed/jetified-react-android-0.74.0-debug/res/values-es-rES/values-es-rES.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
