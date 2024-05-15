@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     backgroundColor: "#f4f4f8",
+    fontFamily: "BM JUA_otf",
   },
   searchContainer: {
     flexDirection: "row",
@@ -192,9 +193,10 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18,
     paddingVertical: 8,
     backgroundColor: "transparent",
+    fontFamily: "BM JUA_otf",
   },
   itemContainer: {
     backgroundColor: "#ffffff",
@@ -210,6 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    fontFamily: "BM JUA_otf",
   },
   itemTextContainer: {
     flex: 1,
@@ -219,15 +222,18 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#333333",
     paddingBottom: 10,
+    fontFamily: "BM JUA_otf",
   },
   itemAddress: {
-    fontSize: 14,
+    fontSize: 18,
     color: "#6c757d",
     marginBottom: 6,
+    fontFamily: "BM JUA_otf",
   },
   itemDetails: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#495057",
+    fontFamily: "BM JUA_otf",
   },
   favoriteIcon: {
     width: 24,
@@ -238,6 +244,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     color: "#6c757d",
+    fontFamily: "BM JUA_otf",
   },
   recentSearchesContainer: {
     marginBottom: 20,
@@ -246,6 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
+    fontFamily: "BM JUA_otf",
   },
   recentSearches: {
     flexDirection: "row",
@@ -262,13 +270,14 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 16,
     color: "#333",
+    fontFamily: "BM JUA_otf",
   },
   closeButton: {
     marginLeft: 8,
     marginTop: 2,
   },
   closeButtonText: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#666",
   },
 });
