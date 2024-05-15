@@ -29,6 +29,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import useDebounce from "../../utils/useDebounce";
 import { getMapBounds } from "../../utils/getMapBound";
 import aroundIcon from "../../assets/aroundCafeteriaBtn.png";
+import logoIcon from "../../assets/logo3.png";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -61,8 +62,8 @@ const MapScreen = ({ navigation }) => {
 
     if (result) {
       updateMapPosition(result.latitude, result.longitude);
-      setCenterLatitude(result.latitude);
-      setCenterLongitude(result.longitude);
+      setCenterLatitude(Number(result.latitude));
+      setCenterLongitude(Number(result.longitude));
       setQuery(""); // 검색 후 입력 필드 초기화
     } else {
       console.log("검색 결과가 없습니다.");
@@ -105,12 +106,20 @@ const MapScreen = ({ navigation }) => {
   }, [updateMapPosition]);
 
   //급식소 데이터
-  const [cafeterias, setCafeterias] = useState([]);
+  const [cafeterias, setCafeterias] = useState([]); // 30개의 급식소
   const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
   const [cafeteriaLoading, setCafeteriaLoading] = useState(false);
+
+  //localhost
+  // const url =
+  //   Platform.OS === "android"
+  //     ? "http://10.0.2.2:3000"
+  //     : "http://localhost:3000";
+
+  //실제 기기
   const url =
     Platform.OS === "android"
-      ? "http://10.0.2.2:3000"
+      ? "http://192.168.35.138:3000"
       : "http://localhost:3000";
 
   const [centerLatitude, setCenterLatitude] = useState();
@@ -120,10 +129,14 @@ const MapScreen = ({ navigation }) => {
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setCenterLatitude(latitude);
-        setCenterLongitude(longitude);
+        setCenterLatitude(Number(latitude));
+        setCenterLongitude(Number(longitude));
       },
-      (error) => console.error("Error getting location:", error)
+      (error) => console.error("Error getting location:", error),
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+      }
     );
     console.log("중심좌표", centerLatitude, centerLongitude);
     console.log();
@@ -165,7 +178,7 @@ const MapScreen = ({ navigation }) => {
     };
 
     try {
-      const res = await axios.post(`${url}/filteredCafeterias`, body);
+      const res = await axios.post(`${url}/filteredCafeterias2`, body);
       console.log("cafeterias changed");
       setCafeterias(res.data);
     } catch (error) {
@@ -187,13 +200,18 @@ const MapScreen = ({ navigation }) => {
     );
     if (centerLatitude && centerLongitude) {
       //undefined가 아닐 때
-      get_user_around_cafeteria_data();
+      if (toggle) {
+        get_filtered_cafeteria_data();
+      } else {
+        get_user_around_cafeteria_data();
+      }
     }
   }, [centerLatitude, centerLongitude]);
 
   useEffect(() => {
     console.log("toggle", toggle);
     if (toggle) {
+      //필터링
       get_filtered_cafeteria_data();
     } else {
       if (centerLatitude && centerLongitude) {
@@ -220,7 +238,7 @@ const MapScreen = ({ navigation }) => {
         width: 40,
         height: 40,
       })),
-      maxZoom: 12.99999, // 최대 줌 레벨
+      maxZoom: 9.99999, // 최대 줌 레벨
       screenDistance: 100, // 클러스터링에 사용되는 최소 거리
     },
   ];
@@ -258,7 +276,7 @@ const MapScreen = ({ navigation }) => {
           );
         });
         setScreenCafeteria(updatedCafeterias);
-        console.log("화면에 마커개수", updatedCafeterias.length);
+        // console.log("화면에 마커개수", updatedCafeterias.length);
       } else {
         //필터링해서 이용가능한 급식소가 0개일경우
         setScreenCafeteria([]);
@@ -266,10 +284,6 @@ const MapScreen = ({ navigation }) => {
     },
     [cafeterias]
   );
-
-  useEffect(() => {
-    console.log("현재보유하고 있는 급식소 개수", cafeterias.length);
-  }, [cafeterias]);
 
   //카메라 움직임이 멈췄을 떄 동작
   useEffect(() => {
@@ -316,22 +330,23 @@ const MapScreen = ({ navigation }) => {
           onInitialized={() => {
             console.log("지도 초기화완료");
           }}
-          onCameraChanged={(camera) => cameraMovingHandler(camera)}
+          // onCameraChanged={(camera) => cameraMovingHandler(camera)}
           layerGroups={{
             BICYCLE: false,
             BUILDING: true,
             CADASTRAL: false,
             MOUNTAIN: false,
-            TRAFFIC: true,
+            TRAFFIC: false,
             TRANSIT: true,
           }}
         >
           {/* 급식소 마커 */}
           {Platform.OS === "android"
-            ? screenCafeteria.map(
+            ? cafeterias.map(
                 (cafeteria, index) =>
                   cafeteria.latitude &&
-                  !cameraMoving && (
+                  !cameraMoving &&
+                  (cafeteria.visible ? (
                     <NaverMapMarkerOverlay
                       key={index}
                       latitude={Number(cafeteria.latitude)}
@@ -344,14 +359,11 @@ const MapScreen = ({ navigation }) => {
                       }}
                       width={30}
                       height={30}
-                      minZoom={13} //ios에서는 이 코드 주석처리
+                      minZoom={10} //ios에서는 이 코드 주석처리
+                      alpha={1}
+                      image={logoIcon}
                     />
-                  )
-              )
-            : screenCafeteria.map(
-                (cafeteria, index) =>
-                  cafeteria.latitude &&
-                  !cameraMoving && (
+                  ) : (
                     <NaverMapMarkerOverlay
                       key={index}
                       latitude={Number(cafeteria.latitude)}
@@ -364,9 +376,53 @@ const MapScreen = ({ navigation }) => {
                       }}
                       width={30}
                       height={30}
+                      minZoom={10} //ios에서는 이 코드 주석처리
+                      alpha={0.3}
+                      image={logoIcon}
+                    />
+                  ))
+              )
+            : //ios
+              cafeterias.map(
+                (cafeteria, index) =>
+                  cafeteria.latitude &&
+                  !cameraMoving &&
+                  (cafeteria.visible ? (
+                    <NaverMapMarkerOverlay
+                      key={index}
+                      latitude={Number(cafeteria.latitude)}
+                      longitude={Number(cafeteria.longitude)}
+                      onTap={() => handleSelectCafeteria(cafeteria)}
+                      anchor={{ x: 0.5, y: 1 }}
+                      caption={{
+                        key: index,
+                        text: `${cafeteria.fcltyNm}`,
+                      }}
+                      width={30}
+                      height={30}
+                      alpha={1}
+                      image={logoIcon}
                       // minZoom={13} //ios에서는 이 코드 주석처리
                     />
-                  )
+                  ) : (
+                    //필터링되는 마커 처리
+                    <NaverMapMarkerOverlay
+                      key={index}
+                      latitude={Number(cafeteria.latitude)}
+                      longitude={Number(cafeteria.longitude)}
+                      onTap={() => handleSelectCafeteria(cafeteria)}
+                      anchor={{ x: 0.5, y: 1 }}
+                      caption={{
+                        key: index,
+                        text: `${cafeteria.fcltyNm}`,
+                      }}
+                      width={30}
+                      height={30}
+                      alpha={0.3}
+                      image={logoIcon}
+                      // minZoom={13} //ios에서는 이 코드 주석처리
+                    />
+                  ))
               )}
         </NaverMapView>
         <View style={styles.searchBar}>
