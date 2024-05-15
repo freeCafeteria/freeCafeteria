@@ -29,6 +29,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import useDebounce from "../../utils/useDebounce";
 import { getMapBounds } from "../../utils/getMapBound";
 import aroundIcon from "../../assets/aroundCafeteriaBtn.png";
+import logoIcon from "../../assets/logo3.png";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -61,8 +62,8 @@ const MapScreen = ({ navigation }) => {
 
     if (result) {
       updateMapPosition(result.latitude, result.longitude);
-      setCenterLatitude(result.latitude);
-      setCenterLongitude(result.longitude);
+      setCenterLatitude(Number(result.latitude));
+      setCenterLongitude(Number(result.longitude));
       setQuery(""); // 검색 후 입력 필드 초기화
     } else {
       console.log("검색 결과가 없습니다.");
@@ -105,12 +106,20 @@ const MapScreen = ({ navigation }) => {
   }, [updateMapPosition]);
 
   //급식소 데이터
-  const [cafeterias, setCafeterias] = useState([]);
+  const [cafeterias, setCafeterias] = useState([]); // 30개의 급식소
   const [toggle, setToggle] = useState(false); //false -> 전체, true -> 필터링 급식데이터
   const [cafeteriaLoading, setCafeteriaLoading] = useState(false);
+
+  //localhost
+  // const url =
+  //   Platform.OS === "android"
+  //     ? "http://10.0.2.2:3000"
+  //     : "http://localhost:3000";
+
+  //실제 기기
   const url =
     Platform.OS === "android"
-      ? "http://10.0.2.2:3000"
+      ? "http://192.168.35.138:3000"
       : "http://localhost:3000";
 
   const [centerLatitude, setCenterLatitude] = useState();
@@ -120,8 +129,8 @@ const MapScreen = ({ navigation }) => {
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setCenterLatitude(latitude);
-        setCenterLongitude(longitude);
+        setCenterLatitude(Number(latitude));
+        setCenterLongitude(Number(longitude));
       },
       (error) => console.error("Error getting location:", error)
     );
@@ -194,6 +203,7 @@ const MapScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("toggle", toggle);
     if (toggle) {
+      //필터링
       get_filtered_cafeteria_data();
     } else {
       if (centerLatitude && centerLongitude) {
@@ -220,7 +230,7 @@ const MapScreen = ({ navigation }) => {
         width: 40,
         height: 40,
       })),
-      maxZoom: 12.99999, // 최대 줌 레벨
+      maxZoom: 9.99999, // 최대 줌 레벨
       screenDistance: 100, // 클러스터링에 사용되는 최소 거리
     },
   ];
@@ -322,7 +332,7 @@ const MapScreen = ({ navigation }) => {
             BUILDING: true,
             CADASTRAL: false,
             MOUNTAIN: false,
-            TRAFFIC: true,
+            TRAFFIC: false,
             TRANSIT: true,
           }}
         >
@@ -344,11 +354,14 @@ const MapScreen = ({ navigation }) => {
                       }}
                       width={30}
                       height={30}
-                      minZoom={13} //ios에서는 이 코드 주석처리
+                      minZoom={10} //ios에서는 이 코드 주석처리
+                      alpha={1}
+                      image={logoIcon}
                     />
                   )
               )
-            : screenCafeteria.map(
+            : //ios
+              screenCafeteria.map(
                 (cafeteria, index) =>
                   cafeteria.latitude &&
                   !cameraMoving && (
@@ -364,6 +377,8 @@ const MapScreen = ({ navigation }) => {
                       }}
                       width={30}
                       height={30}
+                      alpha={1}
+                      image={logoIcon}
                       // minZoom={13} //ios에서는 이 코드 주석처리
                     />
                   )
