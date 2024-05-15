@@ -49,7 +49,7 @@ const CafeteriaDetail = () => {
     }
     return (
       <View style={styles.detailRow}>
-        <Text style={styles.detailLabel}>{item.label}:</Text>
+        <Text style={styles.detailLabel}>{item.label} </Text>
         <Text style={styles.detailValue}>{item.value}</Text>
       </View>
     );
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#f4f6f9",
+    fontFamily: "BM JUA_otf",
   },
   header: {
     flexDirection: "row",
@@ -159,18 +160,19 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 24,
     color: "#343a40",
     textAlign: "center",
     paddingBottom: 12,
+    fontFamily: "BM JUA_otf",
   },
   address: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#6c757d",
     marginTop: 5,
     textAlign: "center",
     paddingBottom: 8,
+    fontFamily: "BM JUA_otf",
   },
   favoriteButton: {
     position: "absolute",
@@ -203,9 +205,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#64c2eb",
   },
   tabButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "600",
     color: "#495057",
+    fontFamily: "BM JUA_otf",
   },
   activeTabText: {
     color: "white",
@@ -215,33 +218,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     shadowColor: "#000",
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 5,
   },
   detailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 8,
+    marginVertical: 14,
+    fontFamily: "BM JUA_otf",
   },
   detailLabel: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#343a40",
+    fontFamily: "BM JUA_otf",
   },
   detailValue: {
     flex: 2,
-    fontSize: 16,
+    fontSize: 18,
     color: "#6c757d",
     textAlign: "right",
+    fontFamily: "BM JUA_otf",
   },
   infoMessage: {
-    fontSize: 16,
+    fontSize: 18,
     color: "gray",
     textAlign: "center",
     marginVertical: 20,
+    fontFamily: "BM JUA_otf",
   },
 });
 

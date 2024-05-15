@@ -3,7 +3,7 @@ import {
   View,
   Text,
   TextInput,
-  Button,
+  TouchableOpacity,
   FlatList,
   StyleSheet,
   Alert,
@@ -75,7 +75,9 @@ const CafeteriaStatus = ({ cafeteriaName }) => {
         value={rating}
         onChangeText={setRating}
       />
-      <Button title="현황 등록" onPress={handleSubmit} color="#64c2eb" />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>현황 등록</Text>
+      </TouchableOpacity>
       <FlatList
         data={statusData}
         keyExtractor={(item) => item.id.toString()}
@@ -105,12 +107,13 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "BM JUA_otf",
     marginBottom: 20,
     color: "#333",
   },
   input: {
     fontSize: 18,
+    fontFamily: "BM JUA_otf",
     marginBottom: 12,
     borderWidth: 1,
     padding: 10,
@@ -118,6 +121,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     minHeight: 40,
     maxHeight: 120,
+  },
+  button: {
+    backgroundColor: "#64c2eb",
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#ffffff",
+    fontFamily: "BM JUA_otf",
   },
   statusItem: {
     padding: 10,
@@ -130,6 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     flexShrink: 1,
+    fontFamily: "BM JUA_otf",
     marginBottom: 5,
   },
 });
