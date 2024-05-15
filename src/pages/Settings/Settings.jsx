@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Modal,
   Image,
+  Platform,
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import useStore from "../../store";
@@ -76,14 +77,23 @@ const Settings = () => {
     }
   };
 
+  const renderInputRow = (label, element) => {
+    return (
+      <View style={styles.inputRow}>
+        <Text style={styles.labelRow}>{label}</Text>
+        {element}
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>설정</Text>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>나이</Text>
+        {renderInputRow(
+          "나이",
           <TextInput
             style={styles.input}
             onChangeText={setAge}
@@ -91,9 +101,9 @@ const Settings = () => {
             placeholder="나이를 입력해주세요"
             keyboardType="numeric"
           />
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>거주지</Text>
+        )}
+        {renderInputRow(
+          "거주지",
           <RNPickerSelect
             onValueChange={setLocation}
             items={locations.map((loc) => ({
@@ -104,10 +114,10 @@ const Settings = () => {
             placeholder={{ label: "거주지를 선택해주세요", value: null }}
             style={pickerSelectStyles}
           />
-        </View>
-        {location && (
-          <View style={styles.section}>
-            <Text style={styles.label}>세부 거주지</Text>
+        )}
+        {location &&
+          renderInputRow(
+            "세부 거주지",
             <RNPickerSelect
               onValueChange={setSubLocation}
               items={subLocations[location].map((subLoc) => ({
@@ -118,10 +128,9 @@ const Settings = () => {
               placeholder={{ label: "세부 거주지를 선택해주세요", value: null }}
               style={pickerSelectStyles}
             />
-          </View>
-        )}
+          )}
         <View style={styles.section}>
-          <Text style={styles.label}>키워드:</Text>
+          <Text style={styles.label}>키워드</Text>
           <View style={styles.buttonContainer}>
             {Object.keys(selectedCategories).map((category, index) => (
               <TouchableOpacity
@@ -197,50 +206,51 @@ const Settings = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f4f7",
+    backgroundColor: "#ffffff",
   },
   scrollViewContent: {
     padding: 20,
-    paddingBottom: 20,
   },
   titleContainer: {
-    paddingTop: 20,
     alignItems: "center",
-    marginBottom: 20,
+    marginVertical: 40,
   },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
+    fontSize: 38,
+    fontFamily: "BM JUA_otf",
     color: "#333",
   },
   section: {
-    marginBottom: 25,
-    backgroundColor: "#ffffff",
-    padding: 15,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
+    marginBottom: 40,
   },
   label: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 10,
+    fontSize: 22,
+    fontFamily: "BM JUA_otf",
+    color: "#555",
+    marginBottom: 14,
+  },
+  labelRow: {
+    fontSize: 22,
+    fontFamily: "BM JUA_otf",
     color: "#555",
   },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 40,
+  },
   input: {
-    backgroundColor: "#f9f9f9",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#333",
   },
   buttonContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    marginTop: 10,
   },
   button: {
     backgroundColor: "#e9ecef",
@@ -254,7 +264,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#64c2eb",
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#495057",
   },
   saveButton: {
@@ -266,7 +277,8 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: "#ffffff",
-    fontSize: 18,
+    fontFamily: "BM JUA_otf",
+    fontSize: 22,
     fontWeight: "bold",
   },
   favoriteItem: {
@@ -274,17 +286,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
+    borderBottomWidth: 1,
+    borderColor: "#e0e0e0",
     marginBottom: 10,
   },
   favoriteText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#333",
   },
   favoriteIcon: {
@@ -292,7 +300,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   noFavoritesText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#777",
     textAlign: "center",
     marginTop: 10,
@@ -301,13 +310,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -319,41 +326,37 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#64c2eb",
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
+    fontFamily: "BM JUA_otf",
     textAlign: "center",
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 8,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#333",
   },
 });
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    backgroundColor: "#f9f9f9",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#333",
-    marginBottom: 10,
   },
   inputAndroid: {
-    backgroundColor: "#f9f9f9",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    fontSize: 18,
+    fontFamily: "BM JUA_otf",
     color: "#333",
-    marginBottom: 10,
   },
 });
 
