@@ -64,8 +64,8 @@
 		6A9843232BEA7EF2008C6FD2 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = freeCafeteria/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-freeCafeteria-freeCafeteriaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-freeCafeteria-freeCafeteriaTests.release.xcconfig"; path = "Target Support Files/Pods-freeCafeteria-freeCafeteriaTests/Pods-freeCafeteria-freeCafeteriaTests.release.xcconfig"; sourceTree = "<group>"; };
+		B32FD0CECF2C4BB49AE3E4D6 /* BMJUA_otf.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = BMJUA_otf.otf; path = ../src/assets/fonts/BMJUA_otf.otf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		B32FD0CECF2C4BB49AE3E4D6 /* BMJUA_otf.otf */ = {isa = PBXFileReference; name = "BMJUA_otf.otf"; path = "../src/assets/fonts/BMJUA_otf.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +117,15 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 			);
 			name = freeCafeteria;
+			sourceTree = "<group>";
+		};
+		18398EA1CF89433A8F73A744 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B32FD0CECF2C4BB49AE3E4D6 /* BMJUA_otf.otf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -199,15 +208,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		18398EA1CF89433A8F73A744 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				B32FD0CECF2C4BB49AE3E4D6 /* BMJUA_otf.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

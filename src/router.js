@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Home from "./pages/Home/Home";
+
 
 import community from "./pages/Community/Community";
 import CafeteriaDetail from "./pages/Community/CafeteriaDetail";
@@ -21,7 +21,9 @@ const Tab = createBottomTabNavigator();
 
 const Map = () => {
   return (
-    <Stack.Navigator initialRouteName="MapScreen">
+    <Stack.Navigator screenOptions={{
+      headerShown: false
+    }} initialRouteName="MapScreen">
       <Stack.Screen name="MapScreen" component={MapScreen} />
       <Stack.Screen name="MapDetail" component={MapDetail} />
     </Stack.Navigator>
@@ -38,13 +40,13 @@ const MainTab = () => {
             case 'Home':
               iconName = focused ? 'home' : 'home-outline';
               break;
-            case 'Map':
+            case '지도':
               iconName = focused ? 'map' : 'map-outline';
               break;
-            case 'Community':
-              iconName = focused ? 'image' : 'image-outline';
+              case '급식소 정보':
+                iconName = focused ? 'home' : 'home-outline';
               break;
-            case 'Settings':
+            case '나':
               iconName = focused ? 'person' : 'person-outline';
               break;
             default:
@@ -58,10 +60,10 @@ const MainTab = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Map" component={Map} />
-      <Tab.Screen name="Community" component={community} />
-      <Tab.Screen name="Settings" component={Settings} />
+     
+      <Tab.Screen name="지도" component={Map} />
+      <Tab.Screen name="급식소 정보" component={community} />
+      <Tab.Screen name="나" component={Settings} />
     </Tab.Navigator>
   );
 };
