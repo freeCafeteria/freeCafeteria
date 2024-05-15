@@ -15,6 +15,7 @@ import useStore from "../../store";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
+
 import { locations, subLocations } from "../Splash/data/locations";
 
 const favoriteIcon = require("../../assets/favorite.png");

@@ -1,16 +1,22 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { NaverMapView, NaverMapMarkerOverlay, NaverMapPathOverlay } from "@mj-studio/react-native-naver-map";
 import { getNaverDirections } from '../../utils/MapUtils';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Header } from '../../components/Header/Header';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const MapDetail = ({ route }) => {
+const MapDetail = ({ route, navigation }) => {
   const mapRef = useRef(null);
   const { cafeteria, userLocation } = route.params;
   const [routeCoords, setRouteCoords] = useState([]);
   const [routeInfo, setRouteInfo] = useState({ duration: null, distance: null });
   const [modalVisible, setModalVisible] = useState(false);
+
+  const onPressBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -64,6 +70,11 @@ const MapDetail = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Header>
+        <Header.Icon iconName="navigate-circle-outline" />
+        <Header.Title title="가까운 거리" />
+        <Header.Icon iconName="close" onPress={onPressBack} />
+      </Header>
       <NaverMapView
         style={{ width: '100%', height: '100%' }}
         ref={mapRef}
@@ -74,25 +85,28 @@ const MapDetail = ({ route }) => {
           longitude={parseFloat(cafeteria.longitude)}
           title={cafeteria.fcltyNm}
         />
+        
         {routeCoords.length >= 2 && (
           <NaverMapPathOverlay
             coords={routeCoords}
             width={12}
             color={'#64c2eb'}
             progress={1}
-            passedColor={'#FFA07A'}
+            passedColor={'#64c2eb'}
           />
         )}
       </NaverMapView>
       <View style={styles.routeInfo}>
         <Icon name="time" size={24} color="#4A90E2" />
         <Text style={styles.infoText}>{routeInfo.duration ? `${routeInfo.duration} 분` : 'Calculating...'}</Text>
-        <Icon name="map" size={24} color="#4A90E2" />
+        <Entypo name="merge" size={24} color="#4A90E2" />
         <Text style={styles.infoText}>{routeInfo.distance ? `${(routeInfo.distance / 1000).toFixed(2)} km` : 'Calculating...'}</Text>
-        <TouchableOpacity style={styles.fab} onPress={toggleModalVisibility}>
-          <Icon name="walk" size={24} color="#FFFFFF" />
+        <View style={styles.fabContainer}>
+          <TouchableOpacity style={styles.fab} onPress={toggleModalVisibility}>
+            <Icon name="walk" size={30} color="#FFFFFF" />
+          </TouchableOpacity>
           <Text style={styles.fabText}>도보 길찾기</Text>
-        </TouchableOpacity>
+        </View>
       </View>
       {renderWebView()}
     </View>
@@ -141,6 +155,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10
   },
+  fabContainer: {
+    alignItems: 'center'
+  },
   fab: {
     width: 56,  
     height: 56,  
@@ -148,13 +165,11 @@ const styles = StyleSheet.create({
     borderRadius: 28,  
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',  
-    padding: 10
+    marginBottom: 5,  
   },
   fabText: {
-    color: '#FFFFFF',
-    fontSize: 10,  
-    marginTop: 4  
+    color: '#999',
+    fontSize: 12,  
   }
 });
 
