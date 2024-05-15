@@ -75,14 +75,12 @@ const Onboarding = ({ navigation }) => {
   const toggleModal = () => setModalVisible(!isModalVisible);
 
   const handleNext = () => {
-    if (step === 1 && !isValidAge()) {
-      Alert.alert(
-        "입력 오류",
-        "유효한 나이를 입력해 주세요. 나이는 0 이상의 숫자여야 합니다."
-      );
-    } else if (step === 2 && (!location || !subLocation)) {
-      Alert.alert("입력 오류", "거주지를 입력해 주세요.");
-    } else if (step === 3 && Object.keys(selectedCategories).length === 0) {
+    if (step === 2 && (!isValidAge() || !location || !subLocation)) {
+      Alert.alert("입력 오류", "모든 필드를 올바르게 입력해 주세요.");
+    } else if (
+      step === 3 &&
+      !Object.values(selectedCategories).some((value) => value)
+    ) {
       Alert.alert("선택 오류", "하나 이상의 카테고리를 선택해 주세요.");
     } else if (step < 3) {
       setStep(step + 1);
@@ -160,68 +158,78 @@ const Onboarding = ({ navigation }) => {
     );
   };
 
+  const renderCategorySelection = () => {
+    return (
+      <View style={styles.categoriesContainer}>
+        {categories.map((category, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.categoryButton,
+              selectedCategories[category] ? styles.selected : null,
+            ]}
+            onPress={() => toggleCategory(category)}
+          >
+            <Text style={styles.categoryText}>{category}</Text>
+            <TouchableOpacity
+              style={styles.infoButton}
+              onPress={() => toggleDescription(category)}
+            >
+              <Image
+                source={require("../../assets/question.png")}
+                style={styles.infoButtonImage}
+              />
+            </TouchableOpacity>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
   return (
     <>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={step === 2 ? styles.centeredContent : null}
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingBottom: 100 },
+        ]}
       >
         {step === 1 && (
           <>
+            <Image
+              source={require("../../assets/freecafeteria.png")}
+              style={styles.introImage}
+            />
             <Text style={styles.titleText}>
-              무료급식소에 오신 것을 환영합니다!
+              무료급식소에 오신 것을 환영합니다.
             </Text>
-            <Text style={styles.instructionText}>
-              사용자에게 적합한 무료 급식소를 찾을 수 있도록 몇가지 질문을
-              드릴게요
+            <Text style={styles.introductionText}>
+              무료급식소는 사용자의 정보를 바탕으로 최적의 급식소를 추천해
+              드립니다.
             </Text>
-            <Text style={styles.label}>나이 (만 나이) 를 입력해주세요</Text>
-            {renderAgeInput()}
           </>
         )}
         {step === 2 && (
-          <View>
-            <Text style={styles.label}>거주지를 입력해주세요</Text>
+          <>
+            <Text style={styles.introductionText}>
+              사용자에게 적합한 무료 급식소를 찾기 위해 필요한 몇 가지 정보를
+              입력해 주세요
+            </Text>
+            <Text style={styles.label}>나이 (만 나이)</Text>
+            {renderAgeInput()}
+            <Text style={styles.label}>거주지</Text>
             {renderLocationPicker()}
             {location && renderSubLocationPicker()}
-          </View>
+          </>
         )}
         {step === 3 && (
           <>
             <Text style={styles.titleText}>해당되는 키워드를 선택하세요</Text>
-            <Text style={styles.instructionText}>
+            <Text style={styles.introductionText}>
               ? 버튼을 눌러 용어에 대한 상세 설명을 확인하세요.
             </Text>
-            <View style={styles.buttonContainer}>
-              {categories.map((category, index) => (
-                <View key={index} style={styles.categoryRow}>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      selectedCategories[category] ? styles.selected : null,
-                    ]}
-                    onPress={() => toggleCategory(category)}
-                  >
-                    <Text style={styles.categoryText}>{category}</Text>
-                    <TouchableOpacity
-                      style={styles.infoButton}
-                      onPress={() => toggleDescription(category)}
-                    >
-                      <Image
-                        source={require("../../assets/question.png")}
-                        style={styles.infoButtonImage}
-                      />
-                    </TouchableOpacity>
-                  </TouchableOpacity>
-
-                  {selectedDescription === category && (
-                    <Text style={styles.descriptionText}>
-                      {categoryDescriptions[category]}
-                    </Text>
-                  )}
-                </View>
-              ))}
-            </View>
+            {renderCategorySelection()}
           </>
         )}
         <StepIndicator currentStep={step} totalSteps={3} goToStep={goToStep} />
@@ -233,25 +241,36 @@ const Onboarding = ({ navigation }) => {
       </TouchableOpacity>
 
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={selectedDescription !== null}
-        onRequestClose={closeDescription}
+        isVisible={selectedDescription !== null}
+        onBackdropPress={closeDescription}
+        backdropColor="#000"
+        backdropOpacity={0.5}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        animationInTiming={600}
+        animationOutTiming={600}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{selectedDescription}</Text>
-            <TouchableOpacity
-              style={[styles.buttonClose]}
-              onPress={closeDescription}
-            >
-              <Text style={styles.textStyle}>닫기</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalText}>{selectedDescription}</Text>
+          <TouchableOpacity
+            style={styles.buttonClose}
+            onPress={closeDescription}
+          >
+            <Text style={styles.textStyle}>닫기</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
-      <Modal isVisible={isModalVisible}>
-        <View style={styles.modalView}>
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={toggleModal}
+        backdropColor="#000"
+        backdropOpacity={0.5}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        animationInTiming={600}
+        animationOutTiming={600}
+      >
+        <View style={styles.modalContent}>
           <Text style={styles.modalText}>
             입력하신 정보를 기반으로 사용자에게 적합한 무료급식소를 제안할
             예정입니다. 실제 이용 가능 여부는 해당 급식소의 정책과 조건에 따라
@@ -283,52 +302,67 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+  },
+  introImage: {
+    width: "100%",
+    height: 200,
+    resizeMode: "contain",
+    marginTop: 40,
+  },
   titleText: {
-    fontSize: 34,
-    fontWeight: "bold",
+    fontSize: 38,
+    fontFamily: "BM JUA_otf",
     color: "#64c2eb",
     textAlign: "center",
-    marginTop: 42,
-    paddingBottom: 40,
-    lineHeight: 40,
+    paddingTop: 40,
+    lineHeight: 44,
     letterSpacing: 0.5,
-    textShadowColor: "rgba(0, 0, 0, 0.1)",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+  },
+  introductionText: {
+    fontSize: 20,
+    fontFamily: "BM JUA_otf",
+    color: "#AEB6BF",
+    textAlign: "center",
+    lineHeight: 28,
+    marginVertical: 40,
   },
   ageinput: {
-    fontSize: 20,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    borderWidth: 1,
+    fontSize: 22,
+    fontFamily: "BM JUA_otf",
+    color: "#64c2eb",
+    borderColor: "transparent",
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
     padding: 10,
     marginVertical: 10,
     width: "100%",
     backgroundColor: "#fff",
-  },
-  instructionText: {
-    fontSize: 20,
-    color: "#666",
-    textAlign: "center",
-    marginTop: 10,
-    marginBottom: 20,
   },
   centeredContent: {
     flex: 1,
     justifyContent: "center",
   },
   label: {
-    fontSize: 18,
+    fontSize: 26,
+    fontFamily: "BM JUA_otf",
     color: "#333",
-    marginTop: 50,
-    marginBottom: 10,
+    marginTop: 30,
+    marginBottom: 32,
   },
-
   pickerInput: {
-    fontSize: 20,
+    fontSize: 22,
+    fontFamily: "BM JUA_otf",
+    color: "#64c2eb",
     padding: 10,
     backgroundColor: "#fff",
     width: "100%",
+    borderColor: "transparent",
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+    marginBottom: 32,
   },
   indicatorContainer: {
     flexDirection: "row",
@@ -350,7 +384,6 @@ const styles = StyleSheet.create({
   inactiveCircle: {
     backgroundColor: "#c0e0ec",
   },
-
   nextButton: {
     backgroundColor: "#AEB6BF",
     padding: 15,
@@ -364,68 +397,50 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
   },
-
-  buttonContainer: {
-    marginTop: 20,
-    alignItems: "center",
+  buttonText: {
+    fontSize: 22,
+    fontFamily: "BM JUA_otf",
+    color: "white",
   },
-
-  categoryRow: {
+  categoriesContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
+  },
+  categoryButton: {
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-  },
-  categoryText: {
-    fontSize: 18,
-    color: "black",
-  },
-  button: {
     backgroundColor: "#f8f8f8",
-    paddingHorizontal: 20,
-    paddingVertical: 18,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#ccc",
-    flexDirection: "row",
+    marginBottom: 15,
+    width: "48%",
     justifyContent: "space-between",
-    alignItems: "center",
-    flex: 1,
   },
-
   selected: {
     backgroundColor: "#64c2eb",
     borderColor: "#64c2eb",
   },
-
-  buttonText: {
+  categoryText: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
+    fontFamily: "BM JUA_otf",
+    color: "black",
   },
-
   infoButton: {
-    marginLeft: 10,
     padding: 5,
   },
-
   infoButtonImage: {
     width: 24,
     height: 24,
     resizeMode: "contain",
   },
-
-  descriptionText: {
-    fontSize: 14,
-    color: "#666",
-    paddingHorizontal: 20,
-    paddingTop: 5,
-  },
-  modalView: {
-    margin: 20,
+  modalContent: {
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -433,42 +448,49 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 4,
     elevation: 5,
+    width: "80%", // 가로 길이 줄이기
+    alignSelf: "center", // 중앙 정렬
+  },
+  modalText: {
+    fontFamily: "BM JUA_otf",
+    fontSize: 18,
+    color: "#333",
+    marginBottom: 20,
+    textAlign: "center",
+    lineHeight: 26,
   },
   buttonClose: {
     backgroundColor: "#64c2eb",
-    borderRadius: 20,
-    padding: 10,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     elevation: 2,
-    marginTop: 15,
   },
   textStyle: {
     color: "white",
+    fontFamily: "BM JUA_otf",
     fontSize: 16,
-    fontWeight: "bold",
     textAlign: "center",
   },
   responsebuttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 20,
   },
-
   responsebutton: {
     backgroundColor: "#64c2eb",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     width: "40%",
     alignItems: "center",
   },
-
   responseText: {
+    fontFamily: "BM JUA_otf",
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
   },
 });
 
