@@ -428,7 +428,7 @@ const MapScreen = ({ navigation }) => {
         <View style={styles.searchBar}>
           <SingleLineInput
             value={query}
-            placeholder="주소를 입력해주세요"
+            placeholder="주소, 급식소를 입력하세요"
             onChangeText={setQuery}
             onSubmitEditing={onFindAddress}
           />

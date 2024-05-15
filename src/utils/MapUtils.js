@@ -14,16 +14,22 @@ export const getNaverDirections = async (startLat, startLng, endLat, endLng) => 
     });
     const route = response.data.route.traoptimal[0];
     const legs = route.path;
-    const durationSeconds = route.summary.duration; // 전체 경로 소요 시간 (초)
-    const durationMinutes = Math.round(durationSeconds / 60); // 소요 시간을 분으로 변환
-    const distance = route.summary.distance; // 전체 경로 거리
-    const taxiFare = route.taxi_fare; // 택시 요금 (API가 이 정보를 제공하는 경우)
+    const durationSeconds = route.summary.duration; 
+    const durationMinutes = Math.round(durationSeconds / 60); 
+    const distance = route.summary.distance; 
+    const taxiFare = route.taxi_fare;
 
     const pathCoords = legs.map(([lng, lat]) => ({ latitude: lat, longitude: lng }));
+   
+console.log("Duration in seconds:", durationSeconds);
 
+console.log("Duration in minutes:", durationMinutes);
+console.log(`Starting coordinates: ${startLat}, ${startLng}`);
+console.log(`Ending coordinates: ${endLat}, ${endLng}`);
+console.log(`API URL: ${url}`);
     return {
       path: pathCoords,
-      duration: durationMinutes, // 분 단위로 변경된 duration
+      duration: durationMinutes, 
       distance,
       taxiFare
     };
