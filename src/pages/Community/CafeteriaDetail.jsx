@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  FlatList,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import useStore from "../../store";
 import CafeteriaStatus from "./CafeteriaStatus";
@@ -30,32 +23,28 @@ const CafeteriaDetail = () => {
 
   const renderTabContent = () => {
     if (activeTab === "basic") {
-      return [
+      const data = [
         { label: "전화번호", value: cafeteria.phoneNumber },
         { label: "운영시간", value: cafeteria.mlsvTime },
         { label: "운영요일", value: cafeteria.mlsvDate },
         { label: "급식대상", value: cafeteria.mlsvTrget },
       ];
+      return (
+        <View style={styles.contentContainer}>
+          {data.map((item, index) => (
+            <View key={index} style={styles.detailRow}>
+              <Text style={styles.detailLabel}>{item.label}</Text>
+              <Text style={styles.detailValue}>{item.value}</Text>
+            </View>
+          ))}
+        </View>
+      );
     } else if (activeTab === "status") {
-      return [<CafeteriaStatus cafeteriaName={cafeteria.fcltyNm} />];
+      return <CafeteriaStatus cafeteriaName={cafeteria.fcltyNm} />;
     } else {
-      return [<Text style={styles.infoMessage}>해당 정보가 없습니다.</Text>];
+      return <Text style={styles.infoMessage}>해당 정보가 없습니다.</Text>;
     }
   };
-
-  const renderItem = ({ item }) => {
-    if (React.isValidElement(item)) {
-      return item;
-    }
-    return (
-      <View style={styles.detailRow}>
-        <Text style={styles.detailLabel}>{item.label} </Text>
-        <Text style={styles.detailValue}>{item.value}</Text>
-      </View>
-    );
-  };
-
-  const data = renderTabContent();
 
   return (
     <View style={styles.container}>
@@ -67,7 +56,6 @@ const CafeteriaDetail = () => {
           <Image source={backIcon} style={styles.backIcon} />
         </TouchableOpacity>
       </View>
-
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{cafeteria.fcltyNm}</Text>
         <Text style={styles.address}>주소: {cafeteria.rdnmadr}</Text>
@@ -81,7 +69,6 @@ const CafeteriaDetail = () => {
           />
         </TouchableOpacity>
       </View>
-
       <View style={styles.tabContainer}>
         <TouchableOpacity
           style={[
@@ -116,13 +103,7 @@ const CafeteriaDetail = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => `item_${index}`}
-        contentContainerStyle={styles.contentContainer}
-      />
+      {renderTabContent()}
     </View>
   );
 };
