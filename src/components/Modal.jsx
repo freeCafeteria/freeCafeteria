@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity, Linking } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import React from "react";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -9,18 +15,29 @@ const ModalComponent = ({
   closeModal,
   selectedCafeteria,
   goToMapDetail,
-  navigation,
+  // navigation,
 }) => {
   // 전화 걸기 함수
+  const navigation = useNavigation();
   const makePhoneCall = (phoneNumber) => {
     const url = `tel:${phoneNumber}`;
-    Linking.openURL(url).catch(err => console.error("Failed to make a call", err));
+    Linking.openURL(url).catch((err) =>
+      console.error("Failed to make a call", err)
+    );
   };
 
   const handleFavoritePress = (cafeteria) => {
     if (cafeteria) {
       navigation.navigate("CafeteriaDetail", { cafeteria });
     }
+    closeModal();
+  };
+
+  const navigateCafeteria = (cafeteria) => {
+    if (cafeteria) {
+      navigation.navigate("CafeteriaDetail", { cafeteria });
+    }
+    closeModal();
   };
 
   return (
@@ -31,8 +48,16 @@ const ModalComponent = ({
     >
       <View style={styles.modalContent}>
         <View style={styles.modalHeader}>
-          <Text style={styles.modalTitle}>{selectedCafeteria?.fcltyNm}</Text>
-          <TouchableOpacity onPress={goToMapDetail} style={styles.iconButtonLarge}>
+          <TouchableOpacity
+            onPress={() => navigateCafeteria(selectedCafeteria)}
+          >
+            <Text style={styles.modalTitle}>{selectedCafeteria?.fcltyNm}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={goToMapDetail}
+            style={styles.iconButtonLarge}
+          >
             <Icon name="navigate-circle-outline" size={36} color="#4A90E2" />
             <Text style={styles.navigateText}>길찾기</Text>
           </TouchableOpacity>
@@ -54,14 +79,14 @@ const ModalComponent = ({
           <Text style={styles.modalText}>{selectedCafeteria?.mlsvDate}</Text>
         </View>
         <View style={styles.iconRow}>
-          <TouchableOpacity 
-            style={styles.iconButton} 
+          <TouchableOpacity
+            style={styles.iconButton}
             onPress={() => makePhoneCall(selectedCafeteria?.phoneNumber)}
           >
             <Icon name="call" size={24} color="#4A90E2" />
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.iconButton} 
+          <TouchableOpacity
+            style={styles.iconButton}
             onPress={() => handleFavoritePress(selectedCafeteria)}
           >
             <Icon name="heart" size={24} color="#4A90E2" />

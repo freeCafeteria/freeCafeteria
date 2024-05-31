@@ -30,6 +30,7 @@ import useDebounce from "../../utils/useDebounce";
 import { getMapBounds } from "../../utils/getMapBound";
 import aroundIcon from "../../assets/aroundCafeteriaBtn.png";
 import logoIcon from "../../assets/logo3.png";
+import { baseURL } from "../../config";
 
 const MapScreen = ({ navigation }) => {
   const { age, selectedCategories } = useStore((state) => ({
@@ -112,15 +113,18 @@ const MapScreen = ({ navigation }) => {
 
   //localhost
   // const url =
-  //   Platform.OS === "android"
-  //     ? "http://10.0.2.2:3000"
-  //     : "http://localhost:3000";
+  // Platform.OS === "android"
+  //   ? "http://10.0.2.2:3000"
+  //   : "http://localhost:3000";
 
   //실제 기기
-  const url =
-    Platform.OS === "android"
-      ? "http://192.168.35.138:3000"
-      : "http://localhost:3000";
+  // const url =
+  //   Platform.OS === "android"
+  //     ? "http://192.168.35.138:3000"
+  //     : "http://localhost:3000";
+
+  const url = baseURL;
+  // console.log(1);
 
   const [centerLatitude, setCenterLatitude] = useState();
   const [centerLongitude, setCenterLongitude] = useState();
@@ -151,6 +155,7 @@ const MapScreen = ({ navigation }) => {
         userLongitude: centerLongitude,
       };
       const res = await axios.post(`${url}/userAroundCafeterias`, body);
+
       setCafeterias(res.data);
       // setCafeterias(res.data.slice(0, 11));
     } catch (error) {
@@ -171,8 +176,8 @@ const MapScreen = ({ navigation }) => {
       userLatitude: centerLatitude,
       userLongitude: centerLongitude,
       userDate: userDate,
-      userTime: "12:15",
-      // userTime: userTime,
+      // userTime: "12:15",
+      userTime: userTime,
       userTarget: filteredCategories,
       userAge: age,
     };

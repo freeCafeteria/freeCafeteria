@@ -15,6 +15,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useStore from "../../store";
+import { baseURL } from "../../config";
 
 const searchIcon = require("../../assets/search.png");
 const favoriteIcon = require("../../assets/favorite.png");
@@ -37,10 +38,13 @@ const Community = () => {
   }, []);
 
   const fetchCafeterias = async () => {
-    const url =
-      Platform.OS === "android"
-        ? "http://10.0.2.2:3000"
-        : "http://localhost:3000";
+    // const url =
+    //   Platform.OS === "android"
+    //     ? "http://10.0.2.2:3000"
+    //     : "http://localhost:3000";
+
+    const url = baseURL;
+
     try {
       const response = await axios.get(`${url}/allCafeterias`);
       setCafeterias(response.data);

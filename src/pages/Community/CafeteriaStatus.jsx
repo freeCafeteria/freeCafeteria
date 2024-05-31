@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import Stars from "react-native-stars";
+import { baseURL } from "../../config";
 
 const CafeteriaStatus = ({ cafeteriaName }) => {
   const [statusData, setStatusData] = useState([]);
@@ -24,12 +25,9 @@ const CafeteriaStatus = ({ cafeteriaName }) => {
 
   const fetchStatusData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/cafeteriaStatus",
-        {
-          params: { cafeteriaName },
-        }
-      );
+      const response = await axios.get(`${baseURL}/cafeteriaStatus`, {
+        params: { cafeteriaName },
+      });
       const sortedData = response.data.sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
@@ -53,7 +51,7 @@ const CafeteriaStatus = ({ cafeteriaName }) => {
         date: new Date().toISOString(),
       };
       try {
-        await axios.post("http://localhost:3000/cafeteriaStatus", {
+        await axios.post(`${baseURL}/cafeteriaStatus`, {
           cafeteriaName,
           ...newEntry,
         });

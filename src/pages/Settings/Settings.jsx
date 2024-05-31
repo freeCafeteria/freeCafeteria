@@ -14,7 +14,7 @@ import RNPickerSelect from "react-native-picker-select";
 import useStore from "../../store";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-
+import { baseURL } from "../../config";
 
 import { locations, subLocations } from "../Splash/data/locations";
 
@@ -55,10 +55,12 @@ const Settings = () => {
   }, []);
 
   const fetchCafeterias = async () => {
-    const url =
-      Platform.OS === "android"
-        ? "http://10.0.2.2:3000"
-        : "http://localhost:3000";
+    // const url =
+    //   Platform.OS === "android"
+    //     ? "http://10.0.2.2:3000"
+    //     : "http://localhost:3000";
+
+    const url = baseURL;
     try {
       const response = await axios.get(`${url}/allCafeterias`);
       setCafeterias(response.data);
